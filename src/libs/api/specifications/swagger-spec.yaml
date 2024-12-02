@@ -1,0 +1,109 @@
+openapi: 3.0.0
+paths:
+  /tournament:
+    get:
+      operationId: TournamentController_findAll
+      parameters:
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: number
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TournamentsResponseDto"
+      tags: &a1
+        - Tournament
+    post:
+      operationId: TournamentController_create
+      parameters: []
+      responses:
+        "201":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TournamentResponseDto"
+      tags: *a1
+  /tournament/{id}:
+    get:
+      operationId: TournamentController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TournamentResponseDto"
+      tags: *a1
+    delete:
+      operationId: TournamentController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      tags: *a1
+info:
+  title: Serezin-Gaming docs
+  description: ""
+  version: "1.0"
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    defaultBearerAuth:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    TournamentsResponseDto:
+      type: object
+      properties:
+        items:
+          example:
+            - &a2
+              owner:
+                role: owner
+                id: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
+              members:
+                - role: owner
+                  id: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
+              id: 51d0af06-f14b-4932-bba8-697201468cda
+          type: array
+          items:
+            type: string
+      required:
+        - items
+    Tournament:
+      type: object
+      properties: {}
+    TournamentResponseDto:
+      type: object
+      properties:
+        item:
+          example: *a2
+          allOf:
+            - $ref: "#/components/schemas/Tournament"
+      required:
+        - item
