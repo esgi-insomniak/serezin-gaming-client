@@ -22,6 +22,9 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.12)(react@18.3.1)
+      '@tanstack/react-query':
+        specifier: ^5.62.2
+        version: 5.62.2(react@18.3.1)
       axios:
         specifier: ^1.7.8
         version: 1.7.8
@@ -43,9 +46,6 @@ importers:
       lucide-react:
         specifier: ^0.462.0
         version: 0.462.0(react@18.3.1)
-      prettier:
-        specifier: ^3.4.1
-        version: 3.4.1
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -101,6 +101,9 @@ importers:
       postcss:
         specifier: ^8.4.49
         version: 8.4.49
+      prettier:
+        specifier: ^3.4.1
+        version: 3.4.1
       tailwindcss:
         specifier: ^3.4.15
         version: 3.4.15
@@ -1391,6 +1394,20 @@ packages:
       {
         integrity: sha512-V5gRru+aD8YVyCOMAjMpWR1Ui577DD5KSJsHP8RAxopAH22jFz6GZd/qxqjO6MJHQhcsjvjOFXyDhyLQUnMveQ==
       }
+
+  '@tanstack/query-core@5.62.2':
+    resolution:
+      {
+        integrity: sha512-LcwVcC5qpsDpHcqlXUUL5o9SaOBwhNkGeV+B06s0GBoyBr8FqXPuXT29XzYXR36lchhnerp6XO+CWc84/vh7Zg==
+      }
+
+  '@tanstack/react-query@5.62.2':
+    resolution:
+      {
+        integrity: sha512-fkTpKKfwTJtVPKVR+ag7YqFgG/7TRVVPzduPAUF9zRCiiA8Wu305u+KJl8rCrh98Qce77vzIakvtUyzWLtaPGA==
+      }
+    peerDependencies:
+      react: ^18 || ^19
 
   '@types/babel__core@7.20.5':
     resolution:
@@ -5969,6 +5986,13 @@ snapshots:
   '@swc/types@0.1.17':
     dependencies:
       '@swc/counter': 0.1.3
+
+  '@tanstack/query-core@5.62.2': {}
+
+  '@tanstack/react-query@5.62.2(react@18.3.1)':
+    dependencies:
+      '@tanstack/query-core': 5.62.2
+      react: 18.3.1
 
   '@types/babel__core@7.20.5':
     dependencies:

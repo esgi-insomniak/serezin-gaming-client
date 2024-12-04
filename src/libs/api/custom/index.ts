@@ -1,1 +1,1 @@
-export * from "./customAxiosInstance.ts";
+export * from './customAxiosInstance.ts';

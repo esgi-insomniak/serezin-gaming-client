@@ -3,26 +3,26 @@ import {
   RoutesDefinition,
   Route as RouteType,
   ClientRoutes,
-  CLIENT_ROUTES,
-} from "@/router";
+  CLIENT_ROUTES
+} from '@/router';
 
 function addQueryParams(
   pathname: string,
-  queryParams: { [key: string]: unknown } | string = {},
+  queryParams: { [key: string]: unknown } | string = {}
 ) {
-  if (typeof queryParams === "string") {
-    return `${pathname}${queryParams.startsWith("?") ? "" : "?"}${queryParams}`;
+  if (typeof queryParams === 'string') {
+    return `${pathname}${queryParams.startsWith('?') ? '' : '?'}${queryParams}`;
   }
 
   return `${pathname}${Object.entries(queryParams).reduce(
     (acc, [key, value], index) => {
-      const keyValuePair = typeof value !== "boolean" ? `${key}=${value}` : key;
+      const keyValuePair = typeof value !== 'boolean' ? `${key}=${value}` : key;
       if (index === 0) {
         return acc + `?${keyValuePair}`;
       }
       return acc + `&${keyValuePair}`;
     },
-    "",
+    ''
   )}`;
 }
 
@@ -30,16 +30,16 @@ function getRouteParams(
   path: string,
   params: {
     [index: string]: unknown;
-  } = {},
+  } = {}
 ): Record<string, string> {
   return (path.match(/:\w+/g) || [])
-    .map((key) => key.replace(":", ""))
+    .map((key) => key.replace(':', ''))
     .reduce(
       (acc, key) =>
         params[key]
           ? { ...acc, [key]: params[key] }
           : { ...acc, [key]: undefined },
-      {},
+      {}
     );
 }
 
@@ -47,21 +47,21 @@ function getRoutePath(
   path: string,
   params: {
     [index: string]: string;
-  } = {},
+  } = {}
 ): string {
   return Object.keys(params).reduce(
     (acc, key) => (params[key] ? acc.replace(`:${key}`, params[key]) : acc),
-    path,
+    path
   );
 }
 
 function getRouteForRoutes<T extends string | symbol>(
   ROUTES: RoutesDefinition<T>,
-  withParams = true,
+  withParams = true
 ) {
   return (target: T, options: RouteOptions = {}): RouteType<T> => {
     if (!ROUTES[target]) {
-      return { id: target, params: "", path: "", title: "" };
+      return { id: target, params: '', path: '', title: '' };
     }
 
     const { path: routePath, parent: routeParent, ...rest } = ROUTES[target];
@@ -72,7 +72,7 @@ function getRouteForRoutes<T extends string | symbol>(
     if (routeParent) {
       const parent = getRouteForRoutes(ROUTES, withParams)(
         routeParent as T,
-        options,
+        options
       );
 
       return {
@@ -80,7 +80,7 @@ function getRouteForRoutes<T extends string | symbol>(
         params,
         parent,
         path: sanatizePath(`${parent.path}${path}`),
-        ...rest,
+        ...rest
       };
     }
 
@@ -88,22 +88,22 @@ function getRouteForRoutes<T extends string | symbol>(
       id: target,
       params,
       path: path,
-      ...rest,
+      ...rest
     };
   };
 }
 
 function sanatizePath(str: string) {
-  return "/" + str.split("/").filter(Boolean).join("/");
+  return '/' + str.split('/').filter(Boolean).join('/');
 }
 
 function getPathForRoutes<T extends string | symbol>(
-  ROUTES: RoutesDefinition<T>,
+  ROUTES: RoutesDefinition<T>
 ) {
   return (target: T, { queryParams, ...options }: RouteOptions = {}): string =>
     addQueryParams(
       getRouteForRoutes(ROUTES)(target, options).path,
-      queryParams,
+      queryParams
     );
 }
 

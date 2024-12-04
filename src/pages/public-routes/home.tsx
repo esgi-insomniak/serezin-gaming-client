@@ -1,4 +1,4 @@
-import { ClientRoutes, useHandleRedirection } from "@/router";
+import { ClientRoutes, useHandleRedirection } from '@/router';
 
 export default function Home() {
   const { redirect } = useHandleRedirection();

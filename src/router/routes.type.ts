@@ -9,7 +9,7 @@ export type RouteOptions = {
   queryParams?: { [key: string]: unknown } | string;
 };
 
-export type Route<T> = Omit<RouteBase<T>, "parent"> & {
+export type Route<T> = Omit<RouteBase<T>, 'parent'> & {
   id: T;
   params: unknown;
   parent?: Route<T>;

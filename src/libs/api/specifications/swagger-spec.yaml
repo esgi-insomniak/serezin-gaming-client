@@ -15,24 +15,24 @@ paths:
           schema:
             type: number
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TournamentsResponseDto"
+                $ref: '#/components/schemas/TournamentsResponseDto'
       tags: &a1
         - Tournament
     post:
       operationId: TournamentController_create
       parameters: []
       responses:
-        "201":
-          description: ""
+        '201':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TournamentResponseDto"
+                $ref: '#/components/schemas/TournamentResponseDto'
       tags: *a1
   /tournament/{id}:
     get:
@@ -44,12 +44,12 @@ paths:
           schema:
             type: string
       responses:
-        "200":
-          description: ""
+        '200':
+          description: ''
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TournamentResponseDto"
+                $ref: '#/components/schemas/TournamentResponseDto'
       tags: *a1
     delete:
       operationId: TournamentController_remove
@@ -60,13 +60,13 @@ paths:
           schema:
             type: string
       responses:
-        "204":
-          description: ""
+        '204':
+          description: ''
       tags: *a1
 info:
   title: Serezin-Gaming docs
-  description: ""
-  version: "1.0"
+  description: ''
+  version: '1.0'
   contact: {}
 tags: []
 servers: []
@@ -104,6 +104,6 @@ components:
         item:
           example: *a2
           allOf:
-            - $ref: "#/components/schemas/Tournament"
+            - $ref: '#/components/schemas/Tournament'
       required:
         - item
