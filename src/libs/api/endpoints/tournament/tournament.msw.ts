@@ -9,7 +9,7 @@ import type {
   TournamentResponseDto
 } from '../../models';
 
-export const getTournamentControllerFindAllResponseMock = (
+export const getTournamentFindAllResponseMock = (
   overrideResponse: Partial<TournamentArrayResponseDto> = {}
 ): TournamentArrayResponseDto => ({
   data: Array.from(
@@ -33,16 +33,11 @@ export const getTournamentControllerFindAllResponseMock = (
     totalItems: faker.number.int({ min: undefined, max: undefined }),
     totalPages: faker.number.int({ min: undefined, max: undefined })
   },
-  statusCode: faker.helpers.arrayElement([
-    100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303,
-    304, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
-    412, 413, 414, 415, 416, 417, 418, 421, 422, 424, 428, 429, 500, 501, 502,
-    503, 504, 505
-  ] as const),
+  statusCode: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse
 });
 
-export const getTournamentControllerCreateResponseMock = (
+export const getTournamentCreateResponseMock = (
   overrideResponse: Partial<TournamentResponseDto> = {}
 ): TournamentResponseDto => ({
   data: {
@@ -56,16 +51,11 @@ export const getTournamentControllerCreateResponseMock = (
   },
   message: faker.string.alpha(20),
   meta: {},
-  statusCode: faker.helpers.arrayElement([
-    100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303,
-    304, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
-    412, 413, 414, 415, 416, 417, 418, 421, 422, 424, 428, 429, 500, 501, 502,
-    503, 504, 505
-  ] as const),
+  statusCode: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse
 });
 
-export const getTournamentControllerFindOneResponseMock = (
+export const getTournamentFindOneResponseMock = (
   overrideResponse: Partial<TournamentResponseDto> = {}
 ): TournamentResponseDto => ({
   data: {
@@ -79,16 +69,11 @@ export const getTournamentControllerFindOneResponseMock = (
   },
   message: faker.string.alpha(20),
   meta: {},
-  statusCode: faker.helpers.arrayElement([
-    100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303,
-    304, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
-    412, 413, 414, 415, 416, 417, 418, 421, 422, 424, 428, 429, 500, 501, 502,
-    503, 504, 505
-  ] as const),
+  statusCode: faker.number.int({ min: undefined, max: undefined }),
   ...overrideResponse
 });
 
-export const getTournamentControllerFindAllMockHandler = (
+export const getTournamentFindAllMockHandler = (
   overrideResponse?:
     | TournamentArrayResponseDto
     | ((
@@ -104,14 +89,14 @@ export const getTournamentControllerFindAllMockHandler = (
           ? typeof overrideResponse === 'function'
             ? await overrideResponse(info)
             : overrideResponse
-          : getTournamentControllerFindAllResponseMock()
+          : getTournamentFindAllResponseMock()
       ),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   });
 };
 
-export const getTournamentControllerCreateMockHandler = (
+export const getTournamentCreateMockHandler = (
   overrideResponse?:
     | TournamentResponseDto
     | ((
@@ -129,7 +114,7 @@ export const getTournamentControllerCreateMockHandler = (
             ? typeof overrideResponse === 'function'
               ? await overrideResponse(info)
               : overrideResponse
-            : getTournamentControllerCreateResponseMock()
+            : getTournamentCreateResponseMock()
         ),
         { status: 201, headers: { 'Content-Type': 'application/json' } }
       );
@@ -137,7 +122,7 @@ export const getTournamentControllerCreateMockHandler = (
   );
 };
 
-export const getTournamentControllerFindOneMockHandler = (
+export const getTournamentFindOneMockHandler = (
   overrideResponse?:
     | TournamentResponseDto
     | ((
@@ -155,7 +140,7 @@ export const getTournamentControllerFindOneMockHandler = (
             ? typeof overrideResponse === 'function'
               ? await overrideResponse(info)
               : overrideResponse
-            : getTournamentControllerFindOneResponseMock()
+            : getTournamentFindOneResponseMock()
         ),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -163,7 +148,7 @@ export const getTournamentControllerFindOneMockHandler = (
   );
 };
 
-export const getTournamentControllerRemoveMockHandler = (
+export const getTournamentRemoveMockHandler = (
   overrideResponse?:
     | void
     | ((
@@ -182,8 +167,8 @@ export const getTournamentControllerRemoveMockHandler = (
   );
 };
 export const getTournamentMock = () => [
-  getTournamentControllerFindAllMockHandler(),
-  getTournamentControllerCreateMockHandler(),
-  getTournamentControllerFindOneMockHandler(),
-  getTournamentControllerRemoveMockHandler()
+  getTournamentFindAllMockHandler(),
+  getTournamentCreateMockHandler(),
+  getTournamentFindOneMockHandler(),
+  getTournamentRemoveMockHandler()
 ];

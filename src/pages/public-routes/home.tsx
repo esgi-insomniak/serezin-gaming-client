@@ -1,10 +1,10 @@
+import { useTournamentFindAll } from '@/libs/api';
 import { ClientRoutes, useHandleRedirection } from '@/router';
-import { useTournamentControllerFindAll } from '@/libs/api';
 
 export default function Home() {
   const { redirect } = useHandleRedirection();
   const { data: { data: { data: allTournaments = [] } = {} } = {} } =
-    useTournamentControllerFindAll();
+    useTournamentFindAll();
 
   return (
     <div>

@@ -4,11 +4,10 @@
  */
 import type { TournamentDto } from './tournamentDto';
 import type { ResponsePaginationMetaDto } from './responsePaginationMetaDto';
-import type { TournamentArrayResponseDtoStatusCode } from './tournamentArrayResponseDtoStatusCode';
 
 export interface TournamentArrayResponseDto {
   data: TournamentDto[];
   message: string;
   meta: ResponsePaginationMetaDto;
-  statusCode: TournamentArrayResponseDtoStatusCode;
+  statusCode: number;
 }

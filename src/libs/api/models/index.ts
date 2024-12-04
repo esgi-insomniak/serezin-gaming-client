@@ -5,9 +5,7 @@
 
 export * from './responsePaginationMetaDto';
 export * from './tournamentArrayResponseDto';
-export * from './tournamentArrayResponseDtoStatusCode';
-export * from './tournamentControllerFindAllParams';
 export * from './tournamentDto';
+export * from './tournamentFindAllParams';
 export * from './tournamentResponseDto';
 export * from './tournamentResponseDtoMeta';
-export * from './tournamentResponseDtoStatusCode';
