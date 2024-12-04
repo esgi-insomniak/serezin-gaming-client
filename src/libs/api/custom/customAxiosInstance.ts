@@ -1,6 +1,12 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export const custom_axios = axios.create({ baseURL: '' });
+export const custom_axios = axios.create({
+  baseURL: 'https://local.serezin-gaming.com:3000',
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
 
 interface CustomPromise<T> extends Promise<AxiosResponse<T>> {
   cancel?: () => void;
@@ -14,13 +20,14 @@ export const customAxiosInstance = <T>(
   const promise: CustomPromise<T> = custom_axios({
     ...config,
     ...options,
-    cancelToken: source.token
+    cancelToken: source.token,
+    withCredentials: true
   })
     .then((response: AxiosResponse<T>) => Promise.resolve(response))
     .catch((error: AxiosError) => Promise.reject(error));
 
   promise.cancel = () => {
-    source.cancel('Query was cancelled');
+    source.cancel('Operation canceled');
   };
 
   return promise;

@@ -15,6 +15,9 @@ export default defineConfig({
     https: {
       key: path.resolve(__dirname, './.infra/local.serezin-gaming.com-key.pem'),
       cert: path.resolve(__dirname, './.infra/local.serezin-gaming.com.pem')
+    },
+    cors: {
+      origin: 'https://local.serezin-gaming.com:3000'
     }
   }
 });
