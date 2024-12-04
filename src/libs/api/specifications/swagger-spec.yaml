@@ -4,12 +4,12 @@ paths:
     get:
       operationId: TournamentController_findAll
       parameters:
-        - name: limit
+        - name: itemsPerPage
           required: false
           in: query
           schema:
             type: number
-        - name: offset
+        - name: page
           required: false
           in: query
           schema:
@@ -20,7 +20,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TournamentsResponseDto'
+                $ref: '#/components/schemas/TournamentArrayResponseDto'
+      security:
+        - defaultBearerAuth: []
       tags: &a1
         - Tournament
     post:
@@ -77,33 +79,188 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
-    TournamentsResponseDto:
+    TournamentDto:
       type: object
       properties:
-        items:
-          example:
-            - &a2
-              owner:
-                role: owner
-                id: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
-              members:
-                - role: owner
-                  id: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
-              id: 51d0af06-f14b-4932-bba8-697201468cda
+        id:
+          type: string
+        owner:
+          type: string
+        members:
           type: array
           items:
             type: string
+        isArchived:
+          type: boolean
       required:
-        - items
-    Tournament:
+        - id
+        - owner
+        - members
+        - isArchived
+    ResponsePaginationMetaDto:
       type: object
-      properties: {}
+      properties:
+        currentPage:
+          type: number
+        totalPages:
+          type: number
+        itemsPerPage:
+          type: number
+        totalItems:
+          type: number
+        haveNextPage:
+          type: boolean
+        havePreviousPage:
+          type: boolean
+      required:
+        - currentPage
+        - totalPages
+        - itemsPerPage
+        - totalItems
+        - haveNextPage
+        - havePreviousPage
+    TournamentArrayResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          enum:
+            - 100
+            - 101
+            - 102
+            - 103
+            - 200
+            - 201
+            - 202
+            - 203
+            - 204
+            - 205
+            - 206
+            - 300
+            - 301
+            - 302
+            - 303
+            - 304
+            - 307
+            - 308
+            - 400
+            - 401
+            - 402
+            - 403
+            - 404
+            - 405
+            - 406
+            - 407
+            - 408
+            - 409
+            - 410
+            - 411
+            - 412
+            - 413
+            - 414
+            - 415
+            - 416
+            - 417
+            - 418
+            - 421
+            - 422
+            - 424
+            - 428
+            - 429
+            - 500
+            - 501
+            - 502
+            - 503
+            - 504
+            - 505
+          example: 200
+        message:
+          type: string
+          example: Success
+        data:
+          example:
+            - &a2
+              id: 51d0af06-f14b-4932-bba8-697201468cda
+              owner: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
+              members:
+                - 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
+              isArchived: false
+          type: array
+          items:
+            $ref: '#/components/schemas/TournamentDto'
+        meta:
+          $ref: '#/components/schemas/ResponsePaginationMetaDto'
+      required:
+        - statusCode
+        - message
+        - data
+        - meta
     TournamentResponseDto:
       type: object
       properties:
-        item:
+        statusCode:
+          type: number
+          enum:
+            - 100
+            - 101
+            - 102
+            - 103
+            - 200
+            - 201
+            - 202
+            - 203
+            - 204
+            - 205
+            - 206
+            - 300
+            - 301
+            - 302
+            - 303
+            - 304
+            - 307
+            - 308
+            - 400
+            - 401
+            - 402
+            - 403
+            - 404
+            - 405
+            - 406
+            - 407
+            - 408
+            - 409
+            - 410
+            - 411
+            - 412
+            - 413
+            - 414
+            - 415
+            - 416
+            - 417
+            - 418
+            - 421
+            - 422
+            - 424
+            - 428
+            - 429
+            - 500
+            - 501
+            - 502
+            - 503
+            - 504
+            - 505
+          example: 200
+        message:
+          type: string
+          example: Success
+        data:
           example: *a2
           allOf:
-            - $ref: '#/components/schemas/Tournament'
+            - $ref: '#/components/schemas/TournamentDto'
+        meta:
+          type: object
       required:
-        - item
+        - statusCode
+        - message
+        - data
+        - meta

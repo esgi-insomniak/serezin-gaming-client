@@ -3,7 +3,11 @@
  * Do not edit manually.
  */
 
-export * from './tournament';
+export * from './responsePaginationMetaDto';
+export * from './tournamentArrayResponseDto';
+export * from './tournamentArrayResponseDtoStatusCode';
 export * from './tournamentControllerFindAllParams';
+export * from './tournamentDto';
 export * from './tournamentResponseDto';
-export * from './tournamentsResponseDto';
+export * from './tournamentResponseDtoMeta';
+export * from './tournamentResponseDtoStatusCode';

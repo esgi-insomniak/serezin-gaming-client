@@ -4,6 +4,6 @@
  */
 
 export type TournamentControllerFindAllParams = {
-  limit?: number;
-  offset?: number;
+  itemsPerPage?: number;
+  page?: number;
 };

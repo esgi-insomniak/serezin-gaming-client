@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "prepare": "husky",
     "gen:api": "orval",
-    "update:api": "bash scripts/generate-spec-api.sh"
+    "update:api": "bash src/scripts/generate-spec-api.sh"
   },
   "dependencies": {
     "@commitlint/cli": "^19.6.0",

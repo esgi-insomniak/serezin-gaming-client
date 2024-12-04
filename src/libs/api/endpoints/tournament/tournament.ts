@@ -4,18 +4,22 @@
  */
 import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
   MutationFunction,
   QueryFunction,
   QueryKey,
+  UndefinedInitialDataOptions,
   UseMutationOptions,
   UseMutationResult,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query';
 import type {
+  TournamentArrayResponseDto,
   TournamentControllerFindAllParams,
-  TournamentResponseDto,
-  TournamentsResponseDto
+  TournamentResponseDto
 } from '../../models';
 import { customAxiosInstance } from '../../custom/customAxiosInstance';
 import type { ErrorType } from '../../custom/customAxiosInstance';
@@ -27,7 +31,7 @@ export const tournamentControllerFindAll = (
   options?: SecondParameter<typeof customAxiosInstance>,
   signal?: AbortSignal
 ) => {
-  return customAxiosInstance<TournamentsResponseDto>(
+  return customAxiosInstance<TournamentArrayResponseDto>(
     { url: `/tournament`, method: 'GET', params, signal },
     options
   );
@@ -45,10 +49,12 @@ export const getTournamentControllerFindAllQueryOptions = <
 >(
   params?: TournamentControllerFindAllParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tournamentControllerFindAll>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+        TError,
+        TData
+      >
     >;
     request?: SecondParameter<typeof customAxiosInstance>;
   }
@@ -67,7 +73,7 @@ export const getTournamentControllerFindAllQueryOptions = <
     Awaited<ReturnType<typeof tournamentControllerFindAll>>,
     TError,
     TData
-  > & { queryKey: QueryKey };
+  > & { queryKey: DataTag<QueryKey, TData> };
 };
 
 export type TournamentControllerFindAllQueryResult = NonNullable<
@@ -79,23 +85,92 @@ export function useTournamentControllerFindAll<
   TData = Awaited<ReturnType<typeof tournamentControllerFindAll>>,
   TError = ErrorType<unknown>
 >(
+  params: undefined | TournamentControllerFindAllParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customAxiosInstance>;
+  }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useTournamentControllerFindAll<
+  TData = Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+  TError = ErrorType<unknown>
+>(
   params?: TournamentControllerFindAllParams,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tournamentControllerFindAll>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customAxiosInstance>;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useTournamentControllerFindAll<
+  TData = Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+  TError = ErrorType<unknown>
+>(
+  params?: TournamentControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+        TError,
+        TData
+      >
     >;
     request?: SecondParameter<typeof customAxiosInstance>;
   }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+export function useTournamentControllerFindAll<
+  TData = Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+  TError = ErrorType<unknown>
+>(
+  params?: TournamentControllerFindAllParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindAll>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customAxiosInstance>;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getTournamentControllerFindAllQueryOptions(
     params,
     options
   );
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
+    queryKey: DataTag<QueryKey, TData>;
   };
 
   query.queryKey = queryOptions.queryKey;
@@ -190,10 +265,12 @@ export const getTournamentControllerFindOneQueryOptions = <
 >(
   id: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tournamentControllerFindOne>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+        TError,
+        TData
+      >
     >;
     request?: SecondParameter<typeof customAxiosInstance>;
   }
@@ -216,7 +293,7 @@ export const getTournamentControllerFindOneQueryOptions = <
     Awaited<ReturnType<typeof tournamentControllerFindOne>>,
     TError,
     TData
-  > & { queryKey: QueryKey };
+  > & { queryKey: DataTag<QueryKey, TData> };
 };
 
 export type TournamentControllerFindOneQueryResult = NonNullable<
@@ -229,19 +306,88 @@ export function useTournamentControllerFindOne<
   TError = ErrorType<unknown>
 >(
   id: string,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customAxiosInstance>;
+  }
+): DefinedUseQueryResult<TData, TError> & {
+  queryKey: DataTag<QueryKey, TData>;
+};
+export function useTournamentControllerFindOne<
+  TData = Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+  TError = ErrorType<unknown>
+>(
+  id: string,
   options?: {
-    query?: UseQueryOptions<
-      Awaited<ReturnType<typeof tournamentControllerFindOne>>,
-      TError,
-      TData
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+          TError,
+          TData
+        >,
+        'initialData'
+      >;
+    request?: SecondParameter<typeof customAxiosInstance>;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+export function useTournamentControllerFindOne<
+  TData = Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+  TError = ErrorType<unknown>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+        TError,
+        TData
+      >
     >;
     request?: SecondParameter<typeof customAxiosInstance>;
   }
-): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
+
+export function useTournamentControllerFindOne<
+  TData = Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+  TError = ErrorType<unknown>
+>(
+  id: string,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof tournamentControllerFindOne>>,
+        TError,
+        TData
+      >
+    >;
+    request?: SecondParameter<typeof customAxiosInstance>;
+  }
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
   const queryOptions = getTournamentControllerFindOneQueryOptions(id, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
+    queryKey: DataTag<QueryKey, TData>;
   };
 
   query.queryKey = queryOptions.queryKey;

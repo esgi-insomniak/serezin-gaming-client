@@ -5,34 +5,95 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, delay, http } from 'msw';
 import type {
-  TournamentResponseDto,
-  TournamentsResponseDto
+  TournamentArrayResponseDto,
+  TournamentResponseDto
 } from '../../models';
 
 export const getTournamentControllerFindAllResponseMock = (
-  overrideResponse: Partial<TournamentsResponseDto> = {}
-): TournamentsResponseDto => ({
-  items: Array.from(
+  overrideResponse: Partial<TournamentArrayResponseDto> = {}
+): TournamentArrayResponseDto => ({
+  data: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1
-  ).map(() => faker.string.alpha(20)),
+  ).map(() => ({
+    id: faker.string.alpha(20),
+    isArchived: faker.datatype.boolean(),
+    members: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1
+    ).map(() => faker.string.alpha(20)),
+    owner: faker.string.alpha(20)
+  })),
+  message: faker.string.alpha(20),
+  meta: {
+    currentPage: faker.number.int({ min: undefined, max: undefined }),
+    haveNextPage: faker.datatype.boolean(),
+    havePreviousPage: faker.datatype.boolean(),
+    itemsPerPage: faker.number.int({ min: undefined, max: undefined }),
+    totalItems: faker.number.int({ min: undefined, max: undefined }),
+    totalPages: faker.number.int({ min: undefined, max: undefined })
+  },
+  statusCode: faker.helpers.arrayElement([
+    100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303,
+    304, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
+    412, 413, 414, 415, 416, 417, 418, 421, 422, 424, 428, 429, 500, 501, 502,
+    503, 504, 505
+  ] as const),
   ...overrideResponse
 });
 
 export const getTournamentControllerCreateResponseMock = (
   overrideResponse: Partial<TournamentResponseDto> = {}
-): TournamentResponseDto => ({ item: {}, ...overrideResponse });
+): TournamentResponseDto => ({
+  data: {
+    id: faker.string.alpha(20),
+    isArchived: faker.datatype.boolean(),
+    members: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1
+    ).map(() => faker.string.alpha(20)),
+    owner: faker.string.alpha(20)
+  },
+  message: faker.string.alpha(20),
+  meta: {},
+  statusCode: faker.helpers.arrayElement([
+    100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303,
+    304, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
+    412, 413, 414, 415, 416, 417, 418, 421, 422, 424, 428, 429, 500, 501, 502,
+    503, 504, 505
+  ] as const),
+  ...overrideResponse
+});
 
 export const getTournamentControllerFindOneResponseMock = (
   overrideResponse: Partial<TournamentResponseDto> = {}
-): TournamentResponseDto => ({ item: {}, ...overrideResponse });
+): TournamentResponseDto => ({
+  data: {
+    id: faker.string.alpha(20),
+    isArchived: faker.datatype.boolean(),
+    members: Array.from(
+      { length: faker.number.int({ min: 1, max: 10 }) },
+      (_, i) => i + 1
+    ).map(() => faker.string.alpha(20)),
+    owner: faker.string.alpha(20)
+  },
+  message: faker.string.alpha(20),
+  meta: {},
+  statusCode: faker.helpers.arrayElement([
+    100, 101, 102, 103, 200, 201, 202, 203, 204, 205, 206, 300, 301, 302, 303,
+    304, 307, 308, 400, 401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411,
+    412, 413, 414, 415, 416, 417, 418, 421, 422, 424, 428, 429, 500, 501, 502,
+    503, 504, 505
+  ] as const),
+  ...overrideResponse
+});
 
 export const getTournamentControllerFindAllMockHandler = (
   overrideResponse?:
-    | TournamentsResponseDto
+    | TournamentArrayResponseDto
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<TournamentsResponseDto> | TournamentsResponseDto)
+      ) => Promise<TournamentArrayResponseDto> | TournamentArrayResponseDto)
 ) => {
   return http.get('https://mock.serezin-gaming.fr/tournament', async (info) => {
     await delay(1000);
