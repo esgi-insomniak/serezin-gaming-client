@@ -1,29 +1,11 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { IDENTITY_STORAGE_KEY } from '@/libs/enum.ts';
-
-interface Identity {
-  name: string;
-}
-
-interface Settings {
-  theme: string;
-}
-
-interface ActionIdentity {
-  setIdentity: (name: string) => void;
-  setConnected: (isConnected: boolean) => void;
-  setSettings: (settings: Settings) => void;
-  resetIdentity: () => void;
-}
-
-interface IdentityState {
-  identity: Identity;
-  isConnected: boolean;
-  settings: Settings;
-  actions: ActionIdentity;
-}
+import { COOKIE_ACCESS_TOKEN_KEY, IDENTITY_STORAGE_KEY } from '@/libs/enum.ts';
+import {
+  IdentityState,
+  Settings
+} from '@/libs/stores/identity/identity.type.ts';
 
 const initialState: Pick<
   IdentityState,
@@ -48,7 +30,17 @@ export const useIdentityStore = create<IdentityState>()(
       }),
       {
         name: IDENTITY_STORAGE_KEY,
-        storage: createJSONStorage(() => sessionStorage)
+        storage: createJSONStorage(() => sessionStorage),
+        onRehydrateStorage: (state) => {
+          // FIXME: This is a workaround to check if the user is connected
+          // update this when the API is ready with the RSO
+          const isConnected =
+            sessionStorage.getItem(IDENTITY_STORAGE_KEY) ||
+            document.cookie.includes(COOKIE_ACCESS_TOKEN_KEY);
+          if (isConnected) {
+            state.isConnected = true;
+          }
+        }
       }
     )
   )
