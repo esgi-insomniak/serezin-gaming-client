@@ -1,50 +1,107 @@
-# React + TypeScript + Vite
+# Serezin Gaming - Tournament Manager for League of Legends
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Serezin Gaming](./src/assets/logo.png)
 
-Currently, two official plugins are available:
+Welcome to **Serezin Gaming**, a platform designed to create and manage tournaments for **League of Legends**. This project streamlines the process of organizing competitive events, providing both front-end and back-end solutions.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Back-end Repository**: [Serezin Gaming API](https://github.com/esgi-insomniak/serezin-gaming-api)
+- **Front-end Repository**: [Serezin Gaming Client](https://github.com/esgi-insomniak/serezin-gaming-client)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Table of Contents
 
-- Configure the top-level `parserOptions` property like this:
+1. [Features](#features)
+2. [Best Practices](./src/docs/best-pratices.md)
+3. [Git Hooks and Commit Guidelines](./src/docs/commitizen.md)
+4. [Issues](./src/docs/issues.md)
+5. [Contributing](#contributing)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname
-    }
-  }
-});
+---
+
+## Features
+
+- **Tournament Creation**: Create tournaments with customizable settings.
+- **Player Management**: Add and manage players and teams.
+- **Match Scheduling**: Creation of brackets and scheduling of matches.
+- **Live Updates**: Real-time match updates and scoreboards.
+- **Admin Panel**: Manage tournaments, players, and matches.
+- **Live Streaming**: Integration of live-streaming.
+- **Leaderboards**: Display rankings and statistics.
+- **Predictions**: Allow users to predict match outcomes, champion picks, etc.
+
+---
+
+## Architecture
+
+```
+.
+├── public -> public folder
+├── src
+│    ├── assets
+│    ├── components
+│    │      └── ui -> shadcn ui components
+│    ├── docs -> all documentations
+│    ├── libs
+│    │   ├── api
+│    │   │   ├── custom
+│    │   │   ├── endpoints
+│    │   │   ├── models
+│    │   ├── stores
+│    ├── pages
+│    │   └── public-routes
+│    ├── router
+└────├── scripts
+         └── all of the scritps
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react';
+## Installation
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules
-  }
-});
+1. Clone the repository:
+
+```bash
+git clone https://github.com/esgi-insomniak/serezin-gaming-client
 ```
+
+2. Install dependencies:
+
+```bash
+pnpm i
+```
+
+3. Install `mkcert` for SSL support:
+
+```bash
+brew install mkcert
+
+# in root folder
+mkdir .infra
+cd .infra
+mkcert local.serezin-gaming.com
+```
+
+4. Copy environment variables:
+
+```bash
+pnpm run copy:env
+```
+
+5. (Not relevant to frontend project) Clone and install the [Readme -> Serezin Gaming API](https://github.com/esgi-insomniak/serezin-gaming-api)
+6. Start the development server:
+
+```bash
+pnpm run dev
+```
+
+---
+
+## Contributing
+
+We welcome contributions to the project! Please follow these steps:
+
+- Fork the repository.
+- Create a feature branch (feat/<feature-name>).
+- Commit changes using the Conventional Commits format.
+- Open a pull request with a detailed description of your changes.
