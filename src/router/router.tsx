@@ -1,9 +1,27 @@
-import { Outlet, Route, Routes } from 'react-router-dom';
-import { PropsWithChildren, Suspense } from 'react';
-import { ClientRoutes, getPath, HomePage, LoginPage } from '@/router';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Suspense } from 'react';
+import {
+  ClientRoutes,
+  getPath,
+  HomePage,
+  LoginPage,
+  PrivacyPolicyPage,
+  ProtectedRoutes,
+  TermsOfServicePage
+} from '@/router';
 
-function ProtectedRoute({ children }: PropsWithChildren) {
-  return <div>{children}</div>;
+function ProtectedRoute({
+  children,
+  withLayout = false,
+  condition
+}: ProtectedRoutes) {
+  if (!condition) return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
+  return (
+    <div>
+      {withLayout ? <div>Layout</div> : null}
+      {children}
+    </div>
+  );
 }
 
 export function Router() {
@@ -13,14 +31,30 @@ export function Router() {
         {/*  Public Routes */}
         <Route
           element={
-            <ProtectedRoute>
+            <ProtectedRoute withLayout={false} condition={true}>
+              <Outlet />
+            </ProtectedRoute>
+          }>
+          <Route path={getPath(ClientRoutes.LOGIN)} element={<LoginPage />} />
+          <Route
+            path={getPath(ClientRoutes.PRIVACY_POLICY)}
+            element={<PrivacyPolicyPage />}
+          />
+          <Route
+            path={ClientRoutes.TERMS_OF_SERVICE}
+            element={<TermsOfServicePage />}
+          />
+        </Route>
+        {/*  Private Routes */}
+        <Route
+          element={
+            // FIXME: change condition to identify.name when RSO is approved
+            <ProtectedRoute withLayout condition={true}>
               <Outlet />
             </ProtectedRoute>
           }>
           <Route path={getPath(ClientRoutes.HOME)} element={<HomePage />} />
-          <Route path={getPath(ClientRoutes.LOGIN)} element={<LoginPage />} />
         </Route>
-        {/*  Private Routes */}
         {/*  Errors Routes */}
       </Routes>
     </Suspense>

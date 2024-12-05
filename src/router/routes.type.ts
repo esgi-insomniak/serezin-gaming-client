@@ -1,3 +1,5 @@
+import { PropsWithChildren, ReactNode } from 'react';
+
 export type RouteBase<T> = {
   title: string;
   path: string;
@@ -20,6 +22,8 @@ export type RoutesDefinition<T extends string | symbol> = Record<
   RouteBase<T>
 >;
 
-export interface ProtectedRoutes {
+export interface ProtectedRoutes extends PropsWithChildren {
   withLayout: boolean;
+  condition: boolean;
+  children: ReactNode;
 }
