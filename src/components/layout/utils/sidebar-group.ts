@@ -1,5 +1,5 @@
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
-import { ClientRoutes, getPath } from '@/router';
+import { ClientRoutes } from '@/router';
 
 type SidebarGroupType = {
   [key: string]: SingleSidebarGroupType[];
@@ -8,7 +8,7 @@ type SidebarGroupType = {
 export type SingleSidebarGroupType = {
   title: string;
   icon: keyof typeof dynamicIconImports;
-  url: string;
+  url: ClientRoutes;
   visible?: boolean;
 };
 
@@ -17,21 +17,21 @@ export const sidebarGroup: SidebarGroupType = {
     {
       title: 'Dashboard',
       icon: 'house',
-      url: getPath(ClientRoutes.HOME)
+      url: ClientRoutes.HOME
     }
   ],
   TOURNOI: [
     {
       title: 'Predictions',
       icon: 'spade',
-      url: getPath(ClientRoutes.HOME)
+      url: ClientRoutes.HOME
     }
   ],
   ADMIN: [
     {
       title: 'Devenir admin',
       icon: 'shield',
-      url: getPath(ClientRoutes.HOME)
+      url: ClientRoutes.HOME
     }
   ]
 };
