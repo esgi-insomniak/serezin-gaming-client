@@ -5,19 +5,16 @@ import {
 } from '@/components/ui/sidebar.tsx';
 import dynamicIconImports from 'lucide-react/dynamicIconImports';
 import { lazy, Suspense } from 'react';
+import { SingleSidebarGroupType } from '../utils';
 
 export function LayoutSidebarContent({
   items
 }: {
-  items: {
-    title: string;
-    icon: keyof typeof dynamicIconImports;
-    url: string;
-  }[];
+  items: SingleSidebarGroupType[];
 }) {
   return (
     <SidebarMenu>
-      {items.map((item) => {
+      {items.map((item: SingleSidebarGroupType) => {
         const LucideIcon = lazy(dynamicIconImports[item.icon]);
         return (
           <SidebarMenuItem key={item.title}>

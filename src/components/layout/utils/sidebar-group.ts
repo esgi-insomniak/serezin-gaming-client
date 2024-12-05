@@ -5,7 +5,7 @@ type SidebarGroupType = {
   [key: string]: SingleSidebarGroupType[];
 };
 
-type SingleSidebarGroupType = {
+export type SingleSidebarGroupType = {
   title: string;
   icon: keyof typeof dynamicIconImports;
   url: string;
