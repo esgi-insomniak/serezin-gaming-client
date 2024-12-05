@@ -18,9 +18,8 @@ function ProtectedRoute({
 }: ProtectedRoutes) {
   if (!condition) return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
   return (
-    <div>
-      {withLayout ? <Layout>{children}</Layout> : null}
-      {children}
+    <div className={'h-dvh overflow-none'}>
+      {withLayout ? <Layout>{children}</Layout> : <>{children}</>}
     </div>
   );
 }

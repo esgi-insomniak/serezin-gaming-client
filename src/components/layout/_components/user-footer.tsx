@@ -26,16 +26,17 @@ import {
   User
 } from 'lucide-react';
 import { useIdentityStore } from '@/libs/stores';
+import { ClientRoutes, useHandleRedirection } from '@/router';
 
 export function UserFooter({
   user
 }: {
   user: { name: string; avatar: string };
 }) {
+  const { resetIdentity, setSettings } = useIdentityStore();
   const { isMobile } = useSidebar();
-  const {
-    actions: { resetIdentity, setSettings }
-  } = useIdentityStore();
+  const { redirect } = useHandleRedirection();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -89,14 +90,18 @@ export function UserFooter({
                 <DropdownMenuItem
                   onClick={() => setSettings({ theme: 'dark' })}>
                   <Moon />
-                  <span>Dark THeme</span>
+                  <span>Dark Theme</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => resetIdentity()}>
+        <DropdownMenuItem
+          onClick={() => {
+            resetIdentity();
+            redirect(ClientRoutes.LOGIN);
+          }}>
           <LogOut />
           Log out
         </DropdownMenuItem>
