@@ -85,6 +85,8 @@ mkcert local.serezin-gaming.com
 4. Copy environment variables:
 
 ```bash
+touch .env.development # if you don't have .env.development
+touch .env.production # if you don't have .env.production
 pnpm run copy:env
 ```
 

@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const custom_axios = axios.create({
-  baseURL: 'https://local.serezin-gaming.com:3000',
+  baseURL: '',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'

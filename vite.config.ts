@@ -17,7 +17,10 @@ export default defineConfig({
       cert: path.resolve(__dirname, './.infra/local.serezin-gaming.com.pem')
     },
     cors: {
-      origin: 'https://local.serezin-gaming.com:3000'
+      origin: [
+        'https://local.serezin-gaming.com:3000',
+        'https://mock.serezin-gaming.fr'
+      ]
     }
   }
 });

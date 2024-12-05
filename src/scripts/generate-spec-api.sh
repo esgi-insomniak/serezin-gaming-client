@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Load the environment variables
-source .env
+source .env.development
 
 # Configuration
 SPEC_FOLDER="src/libs/api/specifications"

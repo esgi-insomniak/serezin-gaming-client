@@ -3,7 +3,7 @@ import { lazy } from 'react';
 export const LoginPage = lazy(
   () => import('@/pages/public-routes/authentications/login.tsx')
 );
-export const HomePage = lazy(() => import('@/pages/public-routes/home.tsx'));
+export const HomePage = lazy(() => import('@/pages/private-routes/home.tsx'));
 export const PrivacyPolicyPage = lazy(
   () => import('@/pages/public-routes/privacy-terms-services/privacy.tsx')
 );
