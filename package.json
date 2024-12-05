@@ -11,6 +11,7 @@
     "preview": "vite preview",
     "prepare": "husky",
     "gen:api": "orval",
+    "copy:env": "bash src/scripts/copy-env.sh",
     "update:api": "bash src/scripts/generate-spec-api.sh"
   },
   "dependencies": {
