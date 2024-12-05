@@ -1,6 +1,10 @@
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger
+} from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/app-sidebar';
-import { PropsWithChildren, Suspense } from 'react';
+import { memo, PropsWithChildren, Suspense } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -10,13 +14,16 @@ import {
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
 
-export default function Layout({ children }: PropsWithChildren) {
+export const MemoizedLayout = memo(function Layout({
+  children
+}: PropsWithChildren) {
   // FIXME: store path in zustand render breadcrumb dynamically
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset className={'h-dvh '}>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger />
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
@@ -45,4 +52,4 @@ export default function Layout({ children }: PropsWithChildren) {
       </SidebarInset>
     </SidebarProvider>
   );
-}
+});

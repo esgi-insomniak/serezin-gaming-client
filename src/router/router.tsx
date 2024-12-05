@@ -9,19 +9,29 @@ import {
   ProtectedRoutes,
   TermsOfServicePage
 } from '@/router';
-import Layout from '@/components/layout/layout.tsx';
+import { MemoizedLayout } from '@/components/layout/layout';
 
 function ProtectedRoute({ children, condition }: ProtectedRoutes) {
   const { pathname } = useLocation();
-  const blackListLayout = [getPath(ClientRoutes.LOGIN)];
-  if (!condition) return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
-  const withLayout = !blackListLayout.includes(pathname);
+  const isLoginPage = pathname === getPath(ClientRoutes.LOGIN);
+
+  if (!condition) {
+    return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
+  }
 
   return (
-    <div className={'h-dvh overflow-none'}>
-      {withLayout ? <Layout>{children}</Layout> : <>{children}</>}
+    <div key="layout-wrapper" className={'h-dvh overflow-none'}>
+      {isLoginPage ? (
+        <>{children}</>
+      ) : (
+        <MemoizedLayout key={pathname}>{children}</MemoizedLayout>
+      )}
     </div>
   );
+}
+
+function NotFound() {
+  return <div>404</div>;
 }
 
 export function Router() {
@@ -54,6 +64,7 @@ export function Router() {
             </ProtectedRoute>
           }>
           <Route path={getPath(ClientRoutes.HOME)} element={<HomePage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         {/*  Errors Routes */}
       </Routes>
