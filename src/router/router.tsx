@@ -1,4 +1,4 @@
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { Suspense } from 'react';
 import {
   ClientRoutes,
@@ -11,12 +11,12 @@ import {
 } from '@/router';
 import Layout from '@/components/layout/layout.tsx';
 
-function ProtectedRoute({
-  children,
-  withLayout = false,
-  condition
-}: ProtectedRoutes) {
+function ProtectedRoute({ children, condition }: ProtectedRoutes) {
+  const { pathname } = useLocation();
+  const blackListLayout = [getPath(ClientRoutes.LOGIN)];
   if (!condition) return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
+  const withLayout = !blackListLayout.includes(pathname);
+
   return (
     <div className={'h-dvh overflow-none'}>
       {withLayout ? <Layout>{children}</Layout> : <>{children}</>}
@@ -31,7 +31,7 @@ export function Router() {
         {/*  Public Routes */}
         <Route
           element={
-            <ProtectedRoute withLayout={false} condition={true}>
+            <ProtectedRoute condition={true}>
               <Outlet />
             </ProtectedRoute>
           }>
@@ -49,7 +49,7 @@ export function Router() {
         <Route
           element={
             // FIXME: change condition to identify.name when RSO is approved
-            <ProtectedRoute withLayout condition={true}>
+            <ProtectedRoute condition={true}>
               <Outlet />
             </ProtectedRoute>
           }>

@@ -23,7 +23,6 @@ export type RoutesDefinition<T extends string | symbol> = Record<
 >;
 
 export interface ProtectedRoutes extends PropsWithChildren {
-  withLayout: boolean;
   condition: boolean;
   children: ReactNode;
 }
