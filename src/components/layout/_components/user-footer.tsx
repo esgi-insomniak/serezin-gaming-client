@@ -27,15 +27,17 @@ import {
 } from 'lucide-react';
 import { useIdentityStore } from '@/libs/stores';
 import { ClientRoutes, useHandleRedirection } from '@/router';
+import { useTheme } from '@/libs/providers';
 
 export function UserFooter({
   user
 }: {
   user: { name: string; avatar: string };
 }) {
-  const { resetIdentity, setSettings } = useIdentityStore();
+  const { resetIdentity } = useIdentityStore();
   const { isMobile } = useSidebar();
   const { redirect } = useHandleRedirection();
+  const { setTheme } = useTheme();
 
   return (
     <DropdownMenu>
@@ -82,13 +84,11 @@ export function UserFooter({
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem
-                  onClick={() => setSettings({ theme: 'light' })}>
+                <DropdownMenuItem onClick={() => setTheme('light')}>
                   <Sun />
                   <span>Light Theme</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => setSettings({ theme: 'dark' })}>
+                <DropdownMenuItem onClick={() => setTheme('dark')}>
                   <Moon />
                   <span>Dark Theme</span>
                 </DropdownMenuItem>

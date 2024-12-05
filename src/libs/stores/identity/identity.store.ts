@@ -2,18 +2,11 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { COOKIE_ACCESS_TOKEN_KEY, IDENTITY_STORAGE_KEY } from '@/libs/enum.ts';
-import {
-  IdentityState,
-  Settings
-} from '@/libs/stores/identity/identity.type.ts';
+import { IdentityState } from '@/libs/stores/identity/identity.type.ts';
 
-const initialState: Pick<
-  IdentityState,
-  'identity' | 'isConnected' | 'settings'
-> = {
+const initialState: Pick<IdentityState, 'identity' | 'isConnected'> = {
   identity: { name: '' },
-  isConnected: false,
-  settings: { theme: 'light' }
+  isConnected: false
 };
 
 export const useIdentityStore = create<IdentityState>()(
@@ -23,7 +16,6 @@ export const useIdentityStore = create<IdentityState>()(
         ...initialState,
         setIdentity: (name: string) => set({ identity: { name } }),
         setConnected: (isConnected: boolean) => set({ isConnected }),
-        setSettings: (settings: Settings) => set({ settings }),
         resetIdentity: () => set(() => initialState)
       }),
       {
