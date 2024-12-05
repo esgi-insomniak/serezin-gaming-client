@@ -9,6 +9,7 @@ import {
   ProtectedRoutes,
   TermsOfServicePage
 } from '@/router';
+import Layout from '@/components/layout/layout.tsx';
 
 function ProtectedRoute({
   children,
@@ -18,7 +19,7 @@ function ProtectedRoute({
   if (!condition) return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
   return (
     <div>
-      {withLayout ? <div>Layout</div> : null}
+      {withLayout ? <Layout>{children}</Layout> : null}
       {children}
     </div>
   );
@@ -41,7 +42,7 @@ export function Router() {
             element={<PrivacyPolicyPage />}
           />
           <Route
-            path={ClientRoutes.TERMS_OF_SERVICE}
+            path={getPath(ClientRoutes.TERMS_OF_SERVICE)}
             element={<TermsOfServicePage />}
           />
         </Route>
