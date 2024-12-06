@@ -17,9 +17,13 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 import type {
-  TournamentArrayResponseDto,
+  InternalServerErrorResponseDto,
+  TournamentArrayOkResponseDto,
+  TournamentBadRequestResponseDto,
+  TournamentCreatedResponseDto,
   TournamentFindAllParams,
-  TournamentResponseDto
+  TournamentNotFoundResponseDto,
+  TournamentOKResponseDto
 } from '../../models';
 import { customAxiosInstance } from '../../custom/customAxiosInstance';
 import type { ErrorType } from '../../custom/customAxiosInstance';
@@ -31,7 +35,7 @@ export const tournamentFindAll = (
   options?: SecondParameter<typeof customAxiosInstance>,
   signal?: AbortSignal
 ) => {
-  return customAxiosInstance<TournamentArrayResponseDto>(
+  return customAxiosInstance<TournamentArrayOkResponseDto>(
     { url: `/tournament`, method: 'GET', params, signal },
     options
   );
@@ -45,7 +49,9 @@ export const getTournamentFindAllQueryKey = (
 
 export const getTournamentFindAllQueryOptions = <
   TData = Awaited<ReturnType<typeof tournamentFindAll>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >
 >(
   params?: TournamentFindAllParams,
   options?: {
@@ -78,11 +84,15 @@ export const getTournamentFindAllQueryOptions = <
 export type TournamentFindAllQueryResult = NonNullable<
   Awaited<ReturnType<typeof tournamentFindAll>>
 >;
-export type TournamentFindAllQueryError = ErrorType<unknown>;
+export type TournamentFindAllQueryError = ErrorType<
+  TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+>;
 
 export function useTournamentFindAll<
   TData = Awaited<ReturnType<typeof tournamentFindAll>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >
 >(
   params: undefined | TournamentFindAllParams,
   options: {
@@ -108,7 +118,9 @@ export function useTournamentFindAll<
 };
 export function useTournamentFindAll<
   TData = Awaited<ReturnType<typeof tournamentFindAll>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >
 >(
   params?: TournamentFindAllParams,
   options?: {
@@ -132,7 +144,9 @@ export function useTournamentFindAll<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 export function useTournamentFindAll<
   TData = Awaited<ReturnType<typeof tournamentFindAll>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >
 >(
   params?: TournamentFindAllParams,
   options?: {
@@ -149,7 +163,9 @@ export function useTournamentFindAll<
 
 export function useTournamentFindAll<
   TData = Awaited<ReturnType<typeof tournamentFindAll>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >
 >(
   params?: TournamentFindAllParams,
   options?: {
@@ -178,14 +194,16 @@ export const tournamentCreate = (
   options?: SecondParameter<typeof customAxiosInstance>,
   signal?: AbortSignal
 ) => {
-  return customAxiosInstance<TournamentResponseDto>(
+  return customAxiosInstance<TournamentCreatedResponseDto>(
     { url: `/tournament`, method: 'POST', signal },
     options
   );
 };
 
 export const getTournamentCreateMutationOptions = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
@@ -217,10 +235,14 @@ export type TournamentCreateMutationResult = NonNullable<
   Awaited<ReturnType<typeof tournamentCreate>>
 >;
 
-export type TournamentCreateMutationError = ErrorType<unknown>;
+export type TournamentCreateMutationError = ErrorType<
+  TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+>;
 
 export const useTournamentCreate = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<
+    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  >,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
@@ -245,7 +267,7 @@ export const tournamentFindOne = (
   options?: SecondParameter<typeof customAxiosInstance>,
   signal?: AbortSignal
 ) => {
-  return customAxiosInstance<TournamentResponseDto>(
+  return customAxiosInstance<TournamentOKResponseDto>(
     { url: `/tournament/${id}`, method: 'GET', signal },
     options
   );
@@ -257,7 +279,11 @@ export const getTournamentFindOneQueryKey = (id: string) => {
 
 export const getTournamentFindOneQueryOptions = <
   TData = Awaited<ReturnType<typeof tournamentFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    | TournamentBadRequestResponseDto
+    | TournamentNotFoundResponseDto
+    | InternalServerErrorResponseDto
+  >
 >(
   id: string,
   options?: {
@@ -294,11 +320,19 @@ export const getTournamentFindOneQueryOptions = <
 export type TournamentFindOneQueryResult = NonNullable<
   Awaited<ReturnType<typeof tournamentFindOne>>
 >;
-export type TournamentFindOneQueryError = ErrorType<unknown>;
+export type TournamentFindOneQueryError = ErrorType<
+  | TournamentBadRequestResponseDto
+  | TournamentNotFoundResponseDto
+  | InternalServerErrorResponseDto
+>;
 
 export function useTournamentFindOne<
   TData = Awaited<ReturnType<typeof tournamentFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    | TournamentBadRequestResponseDto
+    | TournamentNotFoundResponseDto
+    | InternalServerErrorResponseDto
+  >
 >(
   id: string,
   options: {
@@ -324,7 +358,11 @@ export function useTournamentFindOne<
 };
 export function useTournamentFindOne<
   TData = Awaited<ReturnType<typeof tournamentFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    | TournamentBadRequestResponseDto
+    | TournamentNotFoundResponseDto
+    | InternalServerErrorResponseDto
+  >
 >(
   id: string,
   options?: {
@@ -348,7 +386,11 @@ export function useTournamentFindOne<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> };
 export function useTournamentFindOne<
   TData = Awaited<ReturnType<typeof tournamentFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    | TournamentBadRequestResponseDto
+    | TournamentNotFoundResponseDto
+    | InternalServerErrorResponseDto
+  >
 >(
   id: string,
   options?: {
@@ -365,7 +407,11 @@ export function useTournamentFindOne<
 
 export function useTournamentFindOne<
   TData = Awaited<ReturnType<typeof tournamentFindOne>>,
-  TError = ErrorType<unknown>
+  TError = ErrorType<
+    | TournamentBadRequestResponseDto
+    | TournamentNotFoundResponseDto
+    | InternalServerErrorResponseDto
+  >
 >(
   id: string,
   options?: {
@@ -401,7 +447,9 @@ export const tournamentRemove = (
 };
 
 export const getTournamentRemoveMutationOptions = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<
+    TournamentNotFoundResponseDto | InternalServerErrorResponseDto
+  >,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<
@@ -435,10 +483,14 @@ export type TournamentRemoveMutationResult = NonNullable<
   Awaited<ReturnType<typeof tournamentRemove>>
 >;
 
-export type TournamentRemoveMutationError = ErrorType<unknown>;
+export type TournamentRemoveMutationError = ErrorType<
+  TournamentNotFoundResponseDto | InternalServerErrorResponseDto
+>;
 
 export const useTournamentRemove = <
-  TError = ErrorType<unknown>,
+  TError = ErrorType<
+    TournamentNotFoundResponseDto | InternalServerErrorResponseDto
+  >,
   TContext = unknown
 >(options?: {
   mutation?: UseMutationOptions<

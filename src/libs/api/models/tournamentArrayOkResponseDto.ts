@@ -5,7 +5,7 @@
 import type { TournamentDto } from './tournamentDto';
 import type { ResponsePaginationMetaDto } from './responsePaginationMetaDto';
 
-export interface TournamentArrayResponseDto {
+export interface TournamentArrayOkResponseDto {
   data: TournamentDto[];
   message: string;
   meta: ResponsePaginationMetaDto;

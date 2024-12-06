@@ -3,11 +3,11 @@
  * Do not edit manually.
  */
 import type { TournamentDto } from './tournamentDto';
-import type { TournamentResponseDtoMeta } from './tournamentResponseDtoMeta';
+import type { TournamentOKResponseDtoMeta } from './tournamentOKResponseDtoMeta';
 
-export interface TournamentResponseDto {
+export interface TournamentOKResponseDto {
   data: TournamentDto;
   message: string;
-  meta: TournamentResponseDtoMeta;
+  meta: TournamentOKResponseDtoMeta;
   statusCode: number;
 }
