@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.1.0
 paths:
   /tournament:
     get:
@@ -20,9 +20,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TournamentArrayResponseDto'
-      security:
-        - defaultBearerAuth: []
+                $ref: '#/components/schemas/TournamentArrayOkResponseDto'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentBadRequestResponseDto'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
       tags: &a1
         - Tournament
@@ -35,7 +45,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TournamentResponseDto'
+                $ref: '#/components/schemas/TournamentCreatedResponseDto'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentBadRequestResponseDto'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
       tags: *a1
   /tournament/{id}:
@@ -53,7 +75,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TournamentResponseDto'
+                $ref: '#/components/schemas/TournamentOKResponseDto'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentBadRequestResponseDto'
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentNotFoundResponseDto'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
       tags: *a1
     delete:
@@ -67,6 +107,18 @@ paths:
       responses:
         '204':
           description: ''
+        '404':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TournamentNotFoundResponseDto'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
       tags: *a1
 info:
@@ -123,7 +175,7 @@ components:
         - totalItems
         - haveNextPage
         - havePreviousPage
-    TournamentArrayResponseDto:
+    TournamentArrayOkResponseDto:
       type: object
       properties:
         statusCode:
@@ -131,7 +183,7 @@ components:
           example: 200
         message:
           type: string
-          example: Success
+          example: Tournament(s) fetch sucessfully
         data:
           example:
             - &a2
@@ -150,7 +202,45 @@ components:
         - message
         - data
         - meta
-    TournamentResponseDto:
+    TournamentBadRequestResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Tournament data malformed
+      required:
+        - statusCode
+        - error
+    InternalServerErrorResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Internal server error
+      required:
+        - statusCode
+        - error
+    TournamentOKResponseDto:
       type: object
       properties:
         statusCode:
@@ -158,7 +248,46 @@ components:
           example: 200
         message:
           type: string
-          example: Success
+          example: Tournament(s) fetch sucessfully
+        data:
+          example: *a2
+          allOf:
+            - $ref: '#/components/schemas/TournamentDto'
+        meta:
+          type: object
+      required:
+        - statusCode
+        - message
+        - data
+        - meta
+    TournamentNotFoundResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 404
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Tournament not found
+      required:
+        - statusCode
+        - error
+    TournamentCreatedResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 201
+        message:
+          type: string
+          example: Tournament create sucessfully
         data:
           example: *a2
           allOf:

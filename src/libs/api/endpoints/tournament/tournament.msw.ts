@@ -5,13 +5,14 @@
 import { faker } from '@faker-js/faker';
 import { HttpResponse, delay, http } from 'msw';
 import type {
-  TournamentArrayResponseDto,
-  TournamentResponseDto
+  TournamentArrayOkResponseDto,
+  TournamentCreatedResponseDto,
+  TournamentOKResponseDto
 } from '../../models';
 
 export const getTournamentFindAllResponseMock = (
-  overrideResponse: Partial<TournamentArrayResponseDto> = {}
-): TournamentArrayResponseDto => ({
+  overrideResponse: Partial<TournamentArrayOkResponseDto> = {}
+): TournamentArrayOkResponseDto => ({
   data: Array.from(
     { length: faker.number.int({ min: 1, max: 10 }) },
     (_, i) => i + 1
@@ -38,8 +39,8 @@ export const getTournamentFindAllResponseMock = (
 });
 
 export const getTournamentCreateResponseMock = (
-  overrideResponse: Partial<TournamentResponseDto> = {}
-): TournamentResponseDto => ({
+  overrideResponse: Partial<TournamentCreatedResponseDto> = {}
+): TournamentCreatedResponseDto => ({
   data: {
     id: faker.string.alpha(20),
     isArchived: faker.datatype.boolean(),
@@ -56,8 +57,8 @@ export const getTournamentCreateResponseMock = (
 });
 
 export const getTournamentFindOneResponseMock = (
-  overrideResponse: Partial<TournamentResponseDto> = {}
-): TournamentResponseDto => ({
+  overrideResponse: Partial<TournamentOKResponseDto> = {}
+): TournamentOKResponseDto => ({
   data: {
     id: faker.string.alpha(20),
     isArchived: faker.datatype.boolean(),
@@ -75,10 +76,10 @@ export const getTournamentFindOneResponseMock = (
 
 export const getTournamentFindAllMockHandler = (
   overrideResponse?:
-    | TournamentArrayResponseDto
+    | TournamentArrayOkResponseDto
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<TournamentArrayResponseDto> | TournamentArrayResponseDto)
+      ) => Promise<TournamentArrayOkResponseDto> | TournamentArrayOkResponseDto)
 ) => {
   return http.get('https://mock.serezin-gaming.fr/tournament', async (info) => {
     await delay(1000);
@@ -98,10 +99,10 @@ export const getTournamentFindAllMockHandler = (
 
 export const getTournamentCreateMockHandler = (
   overrideResponse?:
-    | TournamentResponseDto
+    | TournamentCreatedResponseDto
     | ((
         info: Parameters<Parameters<typeof http.post>[1]>[0]
-      ) => Promise<TournamentResponseDto> | TournamentResponseDto)
+      ) => Promise<TournamentCreatedResponseDto> | TournamentCreatedResponseDto)
 ) => {
   return http.post(
     'https://mock.serezin-gaming.fr/tournament',
@@ -124,10 +125,10 @@ export const getTournamentCreateMockHandler = (
 
 export const getTournamentFindOneMockHandler = (
   overrideResponse?:
-    | TournamentResponseDto
+    | TournamentOKResponseDto
     | ((
         info: Parameters<Parameters<typeof http.get>[1]>[0]
-      ) => Promise<TournamentResponseDto> | TournamentResponseDto)
+      ) => Promise<TournamentOKResponseDto> | TournamentOKResponseDto)
 ) => {
   return http.get(
     'https://mock.serezin-gaming.fr/tournament/:id',
