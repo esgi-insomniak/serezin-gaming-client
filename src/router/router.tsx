@@ -1,31 +1,22 @@
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import { Suspense } from 'react';
+import { MemoizedLayout } from '@/components/layout/layout';
 import {
   ClientRoutes,
   getPath,
   HomePage,
-  LoginPage,
+  LoginCallbackPage,
   PrivacyPolicyPage,
   ProtectedRoutes,
   TermsOfServicePage
 } from '@/router';
-import { MemoizedLayout } from '@/components/layout/layout';
+import { Suspense } from 'react';
+import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
 
 function ProtectedRoute({ children, condition }: ProtectedRoutes) {
   const { pathname } = useLocation();
-  const isLoginPage = pathname === getPath(ClientRoutes.LOGIN);
-
-  if (!condition) {
-    return <Navigate to={getPath(ClientRoutes.LOGIN)} />;
-  }
 
   return (
     <div key="layout-wrapper" className={'h-dvh overflow-none'}>
-      {isLoginPage ? (
-        <>{children}</>
-      ) : (
-        <MemoizedLayout key={pathname}>{children}</MemoizedLayout>
-      )}
+      <MemoizedLayout key={pathname}>{children}</MemoizedLayout>
     </div>
   );
 }
@@ -45,7 +36,10 @@ export function Router() {
               <Outlet />
             </ProtectedRoute>
           }>
-          <Route path={getPath(ClientRoutes.LOGIN)} element={<LoginPage />} />
+          <Route
+            path={getPath(ClientRoutes.LOGIN_CALLBACK)}
+            element={<LoginCallbackPage />}
+          />
           <Route
             path={getPath(ClientRoutes.PRIVACY_POLICY)}
             element={<PrivacyPolicyPage />}

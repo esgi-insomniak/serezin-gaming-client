@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
-export const LoginPage = lazy(
-  () => import('@/pages/public-routes/authentications/login.tsx')
+export const LoginCallbackPage = lazy(
+  () => import('@/pages/public-routes/authentications/login-callback.tsx')
 );
 export const HomePage = lazy(() => import('@/pages/private-routes/home.tsx'));
 export const PrivacyPolicyPage = lazy(
