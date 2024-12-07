@@ -17,6 +17,7 @@ import type {
   UseQueryResult
 } from '@tanstack/react-query';
 import type {
+  ForbiddenResponseDto,
   InternalServerErrorResponseDto,
   TournamentArrayOkResponseDto,
   TournamentBadRequestResponseDto,
@@ -202,7 +203,9 @@ export const tournamentCreate = (
 
 export const getTournamentCreateMutationOptions = <
   TError = ErrorType<
-    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+    | TournamentBadRequestResponseDto
+    | ForbiddenResponseDto
+    | InternalServerErrorResponseDto
   >,
   TContext = unknown
 >(options?: {
@@ -236,12 +239,16 @@ export type TournamentCreateMutationResult = NonNullable<
 >;
 
 export type TournamentCreateMutationError = ErrorType<
-  TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+  | TournamentBadRequestResponseDto
+  | ForbiddenResponseDto
+  | InternalServerErrorResponseDto
 >;
 
 export const useTournamentCreate = <
   TError = ErrorType<
-    TournamentBadRequestResponseDto | InternalServerErrorResponseDto
+    | TournamentBadRequestResponseDto
+    | ForbiddenResponseDto
+    | InternalServerErrorResponseDto
   >,
   TContext = unknown
 >(options?: {

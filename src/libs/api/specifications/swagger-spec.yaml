@@ -1,5 +1,36 @@
 openapi: 3.1.0
 paths:
+  /authentication/exchange-code/{code}:
+    post:
+      operationId: authenticationExchangeCode
+      parameters:
+        - name: code
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationExchangeCodeResponseDto'
+        '400':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationExchangeCodeBadRequestResponseDto'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseDto'
+      summary: ''
+      tags:
+        - Authentication
   /tournament:
     get:
       operationId: tournamentFindAll
@@ -52,12 +83,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TournamentBadRequestResponseDto'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponseDto'
         '500':
           description: ''
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponseDto'
+      security:
+        - defaultBearerAuth: []
       summary: ''
       tags: *a1
   /tournament/{id}:
@@ -119,6 +158,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponseDto'
+      security:
+        - defaultBearerAuth: []
       summary: ''
       tags: *a1
 info:
@@ -135,6 +176,88 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
+    AuthenticationTokenDto:
+      type: object
+      properties:
+        token_type:
+          type: string
+        access_token:
+          type: string
+        expires_in:
+          type: number
+        refresh_token:
+          type: string
+        scope:
+          type: string
+      required:
+        - token_type
+        - access_token
+        - expires_in
+        - refresh_token
+        - scope
+    AuthenticationExchangeCodeResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 201
+        message:
+          type: string
+          example: Code exchange sucessfully
+        data:
+          example:
+            token_type: Bearer
+            access_token: iarr2WqxpBddFiOPSLl7VVEgtpNuCs
+            expires_in: 604800
+            refresh_token: XtO7WiKSmnH3YYuVDZMDduM5UrnB9E
+            scope: connections
+          allOf:
+            - $ref: '#/components/schemas/AuthenticationTokenDto'
+        meta:
+          type: object
+      required:
+        - statusCode
+        - message
+        - data
+        - meta
+    AuthenticationExchangeCodeBadRequestResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 400
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Code malformed
+      required:
+        - statusCode
+        - error
+    InternalServerErrorResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 500
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Internal server error
+      required:
+        - statusCode
+        - error
     TournamentDto:
       type: object
       properties:
@@ -183,7 +306,7 @@ components:
           example: 200
         message:
           type: string
-          example: Tournament(s) fetch sucessfully
+          example: Tournaments fetch sucessfully
         data:
           example:
             - &a2
@@ -221,25 +344,6 @@ components:
       required:
         - statusCode
         - error
-    InternalServerErrorResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 500
-        error:
-          type: object
-          properties:
-            message:
-              oneOf:
-                - type: string
-                - type: array
-                  items:
-                    type: string
-              example: Internal server error
-      required:
-        - statusCode
-        - error
     TournamentOKResponseDto:
       type: object
       properties:
@@ -248,7 +352,7 @@ components:
           example: 200
         message:
           type: string
-          example: Tournament(s) fetch sucessfully
+          example: Tournament fetch sucessfully
         data:
           example: *a2
           allOf:
@@ -299,3 +403,22 @@ components:
         - message
         - data
         - meta
+    ForbiddenResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 403
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Not authorized to access this resource
+      required:
+        - statusCode
+        - error
