@@ -1,4 +1,9 @@
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage
+} from '@/components/ui/avatar.tsx';
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -12,11 +17,8 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu.tsx';
 import { SidebarMenuButton, useSidebar } from '@/components/ui/sidebar.tsx';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage
-} from '@/components/ui/avatar.tsx';
+import { useTheme } from '@/libs/providers';
+import { useIdentityStore } from '@/libs/stores';
 import {
   ChevronsUpDown,
   LogOut,
@@ -25,8 +27,6 @@ import {
   Sun,
   User
 } from 'lucide-react';
-import { useIdentityStore } from '@/libs/stores';
-import { useTheme } from '@/libs/providers';
 
 export function UserFooter({
   user

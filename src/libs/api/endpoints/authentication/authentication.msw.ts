@@ -10,11 +10,26 @@ export const getAuthenticationExchangeCodeResponseMock = (
   overrideResponse: Partial<AuthenticationExchangeCodeResponseDto> = {}
 ): AuthenticationExchangeCodeResponseDto => ({
   data: {
-    access_token: faker.string.alpha(20),
-    expires_in: faker.number.int({ min: undefined, max: undefined }),
-    refresh_token: faker.string.alpha(20),
-    scope: faker.string.alpha(20),
-    token_type: faker.string.alpha(20)
+    discord: {
+      avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      global_name: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined
+      ]),
+      id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
+    },
+    riot: {
+      id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      name: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
+    },
+    token: {
+      access_token: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        undefined
+      ]),
+      type: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
+    }
   },
   message: faker.string.alpha(20),
   meta: {},
@@ -49,6 +64,26 @@ export const getAuthenticationExchangeCodeMockHandler = (
     }
   );
 };
+
+export const getAuthenticationRevokeTokenMockHandler = (
+  overrideResponse?:
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0]
+      ) => Promise<void> | void)
+) => {
+  return http.delete(
+    'https://mock.serezin-gaming.fr/authentication/revoke-token',
+    async (info) => {
+      await delay(1000);
+      if (typeof overrideResponse === 'function') {
+        await overrideResponse(info);
+      }
+      return new HttpResponse(null, { status: 204 });
+    }
+  );
+};
 export const getAuthenticationMock = () => [
-  getAuthenticationExchangeCodeMockHandler()
+  getAuthenticationExchangeCodeMockHandler(),
+  getAuthenticationRevokeTokenMockHandler()
 ];

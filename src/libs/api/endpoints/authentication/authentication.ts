@@ -11,6 +11,7 @@ import type {
 import type {
   AuthenticationExchangeCodeBadRequestResponseDto,
   AuthenticationExchangeCodeResponseDto,
+  ForbiddenResponseDto,
   InternalServerErrorResponseDto
 } from '../../models';
 import { customAxiosInstance } from '../../custom/customAxiosInstance';
@@ -32,6 +33,7 @@ export const authenticationExchangeCode = (
 export const getAuthenticationExchangeCodeMutationOptions = <
   TError = ErrorType<
     | AuthenticationExchangeCodeBadRequestResponseDto
+    | ForbiddenResponseDto
     | InternalServerErrorResponseDto
   >,
   TContext = unknown
@@ -69,12 +71,14 @@ export type AuthenticationExchangeCodeMutationResult = NonNullable<
 
 export type AuthenticationExchangeCodeMutationError = ErrorType<
   | AuthenticationExchangeCodeBadRequestResponseDto
+  | ForbiddenResponseDto
   | InternalServerErrorResponseDto
 >;
 
 export const useAuthenticationExchangeCode = <
   TError = ErrorType<
     | AuthenticationExchangeCodeBadRequestResponseDto
+    | ForbiddenResponseDto
     | InternalServerErrorResponseDto
   >,
   TContext = unknown
@@ -93,6 +97,73 @@ export const useAuthenticationExchangeCode = <
   TContext
 > => {
   const mutationOptions = getAuthenticationExchangeCodeMutationOptions(options);
+
+  return useMutation(mutationOptions);
+};
+export const authenticationRevokeToken = (
+  options?: SecondParameter<typeof customAxiosInstance>
+) => {
+  return customAxiosInstance<void>(
+    { url: `/authentication/revoke-token`, method: 'DELETE' },
+    options
+  );
+};
+
+export const getAuthenticationRevokeTokenMutationOptions = <
+  TError = ErrorType<ForbiddenResponseDto | InternalServerErrorResponseDto>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof authenticationRevokeToken>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customAxiosInstance>;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof authenticationRevokeToken>>,
+  TError,
+  void,
+  TContext
+> => {
+  const { mutation: mutationOptions, request: requestOptions } = options ?? {};
+
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof authenticationRevokeToken>>,
+    void
+  > = () => {
+    return authenticationRevokeToken(requestOptions);
+  };
+
+  return { mutationFn, ...mutationOptions };
+};
+
+export type AuthenticationRevokeTokenMutationResult = NonNullable<
+  Awaited<ReturnType<typeof authenticationRevokeToken>>
+>;
+
+export type AuthenticationRevokeTokenMutationError = ErrorType<
+  ForbiddenResponseDto | InternalServerErrorResponseDto
+>;
+
+export const useAuthenticationRevokeToken = <
+  TError = ErrorType<ForbiddenResponseDto | InternalServerErrorResponseDto>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof authenticationRevokeToken>>,
+    TError,
+    void,
+    TContext
+  >;
+  request?: SecondParameter<typeof customAxiosInstance>;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof authenticationRevokeToken>>,
+  TError,
+  void,
+  TContext
+> => {
+  const mutationOptions = getAuthenticationRevokeTokenMutationOptions(options);
 
   return useMutation(mutationOptions);
 };

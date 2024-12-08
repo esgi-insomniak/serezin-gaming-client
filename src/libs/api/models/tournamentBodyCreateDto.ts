@@ -4,5 +4,5 @@
  */
 
 export interface TournamentBodyCreateDto {
-  [key: string]: unknown;
+  name: string;
 }
