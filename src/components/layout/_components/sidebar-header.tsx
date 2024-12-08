@@ -6,24 +6,32 @@ import {
 import { SidebarHeader, SidebarMenuButton } from '@/components/ui/sidebar';
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import { Archive, ChevronsUpDown, Crown } from 'lucide-react';
-import { TournamentDto, useTournamentFindAll } from '@/libs/api';
-import { useCallback, useState } from 'react';
+import {
+  TournamentDto,
+  useTournamentFindAll,
+  useTournamentFindOne
+} from '@/libs/api';
+import { useCallback } from 'react';
 import { ClientRoutes, useHandleRedirection } from '@/router';
 import { Separator } from '@/components/ui/separator.tsx';
+import { useParams } from 'react-router-dom';
 
 export function LayoutSidebarHeader() {
+  const { redirect } = useHandleRedirection();
+  const { tournamentId = '' } = useParams<{ tournamentId: string }>();
+
   const { data: { data: { data: allTournaments = [] } = {} } = {} } =
     useTournamentFindAll();
 
-  const { redirect } = useHandleRedirection();
-
-  const [currentTournament, setCurrentTournament] =
-    useState<TournamentDto | null>(null);
+  const { data: { data: { data: currentTournament } = {} } = {} } =
+    useTournamentFindOne(tournamentId, { query: { enabled: !!tournamentId } });
 
   const handleTournamentChange = useCallback(
     (tournament: TournamentDto) => {
-      setCurrentTournament(tournament);
-      redirect(ClientRoutes.HOME, { params: { tournamentId: tournament.id } });
+      redirect(ClientRoutes.TOURNAMENT_DETAILS, {
+        params: { tournamentId: tournament.id },
+        replace: false
+      });
     },
     [redirect]
   );
@@ -65,7 +73,7 @@ export function LayoutSidebarHeader() {
           </div>
           <Separator className="my-2" />
           <div className="p-2">
-            <DropdownMenuItem onSelect={() => setCurrentTournament(null)}>
+            <DropdownMenuItem onSelect={() => redirect(ClientRoutes.HOME)}>
               <Crown className="size-4" />
               Selectionner un tournoi
             </DropdownMenuItem>

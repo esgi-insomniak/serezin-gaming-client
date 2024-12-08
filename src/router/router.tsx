@@ -6,13 +6,17 @@ import {
   LoginCallbackPage,
   PrivacyPolicyPage,
   ProtectedRoutes,
-  TermsOfServicePage
+  TermsOfServicePage,
+  TournamentDetailsPage
 } from '@/router';
 import { Suspense } from 'react';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { useIdentityStore } from '@/libs/stores';
 
-function ProtectedRoute({ children, condition }: ProtectedRoutes) {
+function ProtectedRoute({ children }: ProtectedRoutes) {
   const { pathname } = useLocation();
+
+  // TODO: if condition is false, redirect to forbidden page
 
   return (
     <div key="layout-wrapper" className={'h-dvh overflow-none'}>
@@ -26,13 +30,14 @@ function NotFound() {
 }
 
 export function Router() {
+  const { isConnected } = useIdentityStore();
   return (
     <Suspense fallback={<div>loading ...</div>}>
       <Routes>
         {/*  Public Routes */}
         <Route
           element={
-            <ProtectedRoute condition={true}>
+            <ProtectedRoute condition={!isConnected}>
               <Outlet />
             </ProtectedRoute>
           }>
@@ -53,11 +58,15 @@ export function Router() {
         <Route
           element={
             // FIXME: change condition to identify.name when RSO is approved
-            <ProtectedRoute condition={true}>
+            <ProtectedRoute condition={isConnected}>
               <Outlet />
             </ProtectedRoute>
           }>
           <Route path={getPath(ClientRoutes.HOME)} element={<HomePage />} />
+          <Route
+            path={getPath(ClientRoutes.TOURNAMENT_DETAILS)}
+            element={<TournamentDetailsPage />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
         {/*  Errors Routes */}

@@ -4,7 +4,8 @@ export enum ClientRoutes {
   LOGIN_CALLBACK = 'LOGIN_CALLBACK',
   HOME = 'HOME',
   PRIVACY_POLICY = 'PRIVACY_POLICY',
-  TERMS_OF_SERVICE = 'TERMS_OF_SERVICE'
+  TERMS_OF_SERVICE = 'TERMS_OF_SERVICE',
+  TOURNAMENT_DETAILS = 'TOURNAMENT_DETAILS'
 }
 
 export const CLIENT_ROUTES: RoutesDefinition<keyof typeof ClientRoutes> = {
@@ -23,5 +24,10 @@ export const CLIENT_ROUTES: RoutesDefinition<keyof typeof ClientRoutes> = {
   TERMS_OF_SERVICE: {
     title: ClientRoutes.TERMS_OF_SERVICE,
     path: '/terms-of-service'
+  },
+  TOURNAMENT_DETAILS: {
+    title: ClientRoutes.TOURNAMENT_DETAILS,
+    path: '/:tournamentId',
+    parent: ClientRoutes.HOME
   }
 };

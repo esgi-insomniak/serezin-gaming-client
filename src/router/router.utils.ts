@@ -1,9 +1,9 @@
 import {
-  RouteOptions,
-  RoutesDefinition,
-  Route as RouteType,
+  CLIENT_ROUTES,
   ClientRoutes,
-  CLIENT_ROUTES
+  Route as RouteType,
+  RouteOptions,
+  RoutesDefinition
 } from '@/router';
 
 function addQueryParams(
@@ -65,8 +65,7 @@ function getRouteForRoutes<T extends string | symbol>(
     }
 
     const { path: routePath, parent: routeParent, ...rest } = ROUTES[target];
-
-    const params = getRouteParams(routePath, options.params);
+    const params = getRouteParams(routePath, options.params || {});
     const path = withParams ? getRoutePath(routePath, params) : routePath;
 
     if (routeParent) {
@@ -87,7 +86,7 @@ function getRouteForRoutes<T extends string | symbol>(
     return {
       id: target,
       params,
-      path: path,
+      path: sanatizePath(path), // Ensure sanitized path
       ...rest
     };
   };

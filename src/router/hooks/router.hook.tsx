@@ -1,10 +1,21 @@
-import { ClientRoutes, getPath, RouteOptions } from '@/router';
 import { useNavigate } from 'react-router-dom';
+import { ClientRoutes, getPath } from '@/router';
 
 export function useHandleRedirection() {
   const navigate = useNavigate();
-  function redirect(path: ClientRoutes, params?: RouteOptions) {
-    navigate(getPath(path), { state: params, replace: true });
+
+  function redirect(
+    route: ClientRoutes,
+    options: {
+      params?: Record<string, string>;
+      queryParams?: Record<string, string | number | boolean>;
+      replace?: boolean;
+    } = {}
+  ) {
+    const path = getPath(route, options);
+
+    navigate(path, { replace: options.replace });
   }
+
   return { redirect };
 }

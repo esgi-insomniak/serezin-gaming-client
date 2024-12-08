@@ -13,3 +13,6 @@ export const TermsOfServicePage = lazy(
       '@/pages/public-routes/privacy-terms-services/termes-of-services.tsx'
     )
 );
+export const TournamentDetailsPage = lazy(
+  () => import('@/pages/private-routes/tournament/tournament.tsx')
+);
