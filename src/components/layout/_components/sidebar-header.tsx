@@ -42,9 +42,8 @@ export function LayoutSidebarHeader() {
             </div>
             <div className="flex flex-col gap-0.5 leading-none">
               <span className="font-semibold">
-                {currentTournament?.id ?? 'Selectionner un tournoi'}
+                {currentTournament?.name ?? 'Selectionner un tournoi'}
               </span>
-              <span className="">{currentTournament?.id ?? ''}</span>
             </div>
             <ChevronsUpDown className="ml-auto" />
           </SidebarMenuButton>
@@ -59,7 +58,7 @@ export function LayoutSidebarHeader() {
                 onSelect={() => handleTournamentChange(tournament)}>
                 <Icon className="size-4" />
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="">{tournament.id}</span>
+                  <span className="">{tournament.name}</span>
                 </div>
               </DropdownMenuItem>
             ))}

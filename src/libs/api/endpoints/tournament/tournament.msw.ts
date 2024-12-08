@@ -23,6 +23,7 @@ export const getTournamentFindAllResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1
     ).map(() => faker.string.alpha(20)),
+    name: faker.string.alpha(20),
     owner: faker.string.alpha(20)
   })),
   message: faker.string.alpha(20),
@@ -48,6 +49,7 @@ export const getTournamentCreateResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1
     ).map(() => faker.string.alpha(20)),
+    name: faker.string.alpha(20),
     owner: faker.string.alpha(20)
   },
   message: faker.string.alpha(20),
@@ -66,6 +68,7 @@ export const getTournamentFindOneResponseMock = (
       { length: faker.number.int({ min: 1, max: 10 }) },
       (_, i) => i + 1
     ).map(() => faker.string.alpha(20)),
+    name: faker.string.alpha(20),
     owner: faker.string.alpha(20)
   },
   message: faker.string.alpha(20),

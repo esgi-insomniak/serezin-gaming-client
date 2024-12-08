@@ -21,6 +21,7 @@ import type {
   InternalServerErrorResponseDto,
   TournamentArrayOkResponseDto,
   TournamentBadRequestResponseDto,
+  TournamentBodyCreateDto,
   TournamentCreatedResponseDto,
   TournamentFindAllParams,
   TournamentNotFoundResponseDto,
@@ -192,11 +193,18 @@ export function useTournamentFindAll<
 }
 
 export const tournamentCreate = (
+  tournamentBodyCreateDto: TournamentBodyCreateDto,
   options?: SecondParameter<typeof customAxiosInstance>,
   signal?: AbortSignal
 ) => {
   return customAxiosInstance<TournamentCreatedResponseDto>(
-    { url: `/tournament`, method: 'POST', signal },
+    {
+      url: `/tournament`,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      data: tournamentBodyCreateDto,
+      signal
+    },
     options
   );
 };
@@ -212,23 +220,25 @@ export const getTournamentCreateMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof tournamentCreate>>,
     TError,
-    void,
+    { data: TournamentBodyCreateDto },
     TContext
   >;
   request?: SecondParameter<typeof customAxiosInstance>;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof tournamentCreate>>,
   TError,
-  void,
+  { data: TournamentBodyCreateDto },
   TContext
 > => {
   const { mutation: mutationOptions, request: requestOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof tournamentCreate>>,
-    void
-  > = () => {
-    return tournamentCreate(requestOptions);
+    { data: TournamentBodyCreateDto }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return tournamentCreate(data, requestOptions);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -237,7 +247,7 @@ export const getTournamentCreateMutationOptions = <
 export type TournamentCreateMutationResult = NonNullable<
   Awaited<ReturnType<typeof tournamentCreate>>
 >;
-
+export type TournamentCreateMutationBody = TournamentBodyCreateDto;
 export type TournamentCreateMutationError = ErrorType<
   | TournamentBadRequestResponseDto
   | ForbiddenResponseDto
@@ -255,14 +265,14 @@ export const useTournamentCreate = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof tournamentCreate>>,
     TError,
-    void,
+    { data: TournamentBodyCreateDto },
     TContext
   >;
   request?: SecondParameter<typeof customAxiosInstance>;
 }): UseMutationResult<
   Awaited<ReturnType<typeof tournamentCreate>>,
   TError,
-  void,
+  { data: TournamentBodyCreateDto },
   TContext
 > => {
   const mutationOptions = getTournamentCreateMutationOptions(options);

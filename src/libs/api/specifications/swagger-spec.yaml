@@ -70,6 +70,12 @@ paths:
     post:
       operationId: tournamentCreate
       parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TournamentBodyCreateDto'
       responses:
         '201':
           description: ''
@@ -263,6 +269,8 @@ components:
       properties:
         id:
           type: string
+        name:
+          type: string
         owner:
           type: string
         members:
@@ -273,6 +281,7 @@ components:
           type: boolean
       required:
         - id
+        - name
         - owner
         - members
         - isArchived
@@ -311,6 +320,7 @@ components:
           example:
             - &a2
               id: 51d0af06-f14b-4932-bba8-697201468cda
+              name: Tournament Edition 2024
               owner: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
               members:
                 - 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
@@ -383,6 +393,9 @@ components:
       required:
         - statusCode
         - error
+    TournamentBodyCreateDto:
+      type: object
+      properties: {}
     TournamentCreatedResponseDto:
       type: object
       properties:

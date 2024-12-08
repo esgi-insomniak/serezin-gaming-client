@@ -7,5 +7,6 @@ export interface TournamentDto {
   id: string;
   isArchived: boolean;
   members: string[];
+  name: string;
   owner: string;
 }

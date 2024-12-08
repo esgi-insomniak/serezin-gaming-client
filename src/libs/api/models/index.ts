@@ -20,6 +20,7 @@ export * from './tournamentArrayOkResponseDto';
 export * from './tournamentBadRequestResponseDto';
 export * from './tournamentBadRequestResponseDtoError';
 export * from './tournamentBadRequestResponseDtoErrorMessage';
+export * from './tournamentBodyCreateDto';
 export * from './tournamentCreatedResponseDto';
 export * from './tournamentCreatedResponseDtoMeta';
 export * from './tournamentDto';
