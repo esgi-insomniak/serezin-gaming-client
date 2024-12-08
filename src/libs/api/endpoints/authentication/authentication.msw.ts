@@ -10,11 +10,89 @@ export const getAuthenticationExchangeCodeResponseMock = (
   overrideResponse: Partial<AuthenticationExchangeCodeResponseDto> = {}
 ): AuthenticationExchangeCodeResponseDto => ({
   data: {
-    access_token: faker.string.alpha(20),
-    expires_in: faker.number.int({ min: undefined, max: undefined }),
-    refresh_token: faker.string.alpha(20),
-    scope: faker.string.alpha(20),
-    token_type: faker.string.alpha(20)
+    riot: {
+      friend_sync: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        undefined
+      ]),
+      id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      metadata_visibility: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined
+      ]),
+      name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      show_activity: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        undefined
+      ]),
+      two_way_link: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        undefined
+      ]),
+      type: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      verified: faker.helpers.arrayElement([
+        faker.datatype.boolean(),
+        undefined
+      ]),
+      visibility: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined
+      ])
+    },
+    token: {
+      access_token: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        undefined
+      ]),
+      type: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
+    },
+    user: {
+      accent_color: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.number.int({ min: undefined, max: undefined }),
+          null
+        ]),
+        undefined
+      ]),
+      avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      banner: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined
+      ]),
+      banner_color: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([
+          faker.number.int({ min: undefined, max: undefined }),
+          null
+        ]),
+        undefined
+      ]),
+      clan: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined
+      ]),
+      discriminator: faker.helpers.arrayElement([
+        faker.string.alpha(20),
+        undefined
+      ]),
+      flags: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined
+      ]),
+      global_name: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined
+      ]),
+      id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      primary_guild: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
+        undefined
+      ]),
+      public_flags: faker.helpers.arrayElement([
+        faker.number.int({ min: undefined, max: undefined }),
+        undefined
+      ]),
+      username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
+    }
   },
   message: faker.string.alpha(20),
   meta: {},
@@ -49,6 +127,26 @@ export const getAuthenticationExchangeCodeMockHandler = (
     }
   );
 };
+
+export const getAuthenticationRevokeTokenMockHandler = (
+  overrideResponse?:
+    | void
+    | ((
+        info: Parameters<Parameters<typeof http.delete>[1]>[0]
+      ) => Promise<void> | void)
+) => {
+  return http.delete(
+    'https://mock.serezin-gaming.fr/authentication/revoke-token',
+    async (info) => {
+      await delay(1000);
+      if (typeof overrideResponse === 'function') {
+        await overrideResponse(info);
+      }
+      return new HttpResponse(null, { status: 204 });
+    }
+  );
+};
 export const getAuthenticationMock = () => [
-  getAuthenticationExchangeCodeMockHandler()
+  getAuthenticationExchangeCodeMockHandler(),
+  getAuthenticationRevokeTokenMockHandler()
 ];

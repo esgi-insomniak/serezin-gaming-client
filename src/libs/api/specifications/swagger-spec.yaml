@@ -22,6 +22,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AuthenticationExchangeCodeBadRequestResponseDto'
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponseDto'
         '500':
           description: ''
           content:
@@ -29,8 +35,31 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
-      tags:
+      tags: &a1
         - Authentication
+  /authentication/revoke-token:
+    delete:
+      operationId: authenticationRevokeToken
+      parameters: []
+      responses:
+        '204':
+          description: ''
+        '403':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponseDto'
+        '500':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerErrorResponseDto'
+      security:
+        - defaultBearerAuth: []
+      summary: ''
+      tags: *a1
   /tournament:
     get:
       operationId: tournamentFindAll
@@ -65,7 +94,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
-      tags: &a1
+      tags: &a2
         - Tournament
     post:
       operationId: tournamentCreate
@@ -104,7 +133,7 @@ paths:
       security:
         - defaultBearerAuth: []
       summary: ''
-      tags: *a1
+      tags: *a2
   /tournament/{id}:
     get:
       operationId: tournamentFindOne
@@ -140,7 +169,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerErrorResponseDto'
       summary: ''
-      tags: *a1
+      tags: *a2
     delete:
       operationId: tournamentRemove
       parameters:
@@ -167,7 +196,7 @@ paths:
       security:
         - defaultBearerAuth: []
       summary: ''
-      tags: *a1
+      tags: *a2
 info:
   title: Serezin-Gaming docs
   description: ''
@@ -182,25 +211,92 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
-    AuthenticationTokenDto:
+    AuthenticateUserDto:
       type: object
       properties:
-        token_type:
-          type: string
-        access_token:
-          type: string
-        expires_in:
-          type: number
-        refresh_token:
-          type: string
-        scope:
-          type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+              required: true
+            username:
+              type: string
+              required: true
+            avatar:
+              type: string
+              required: true
+            discriminator:
+              type: string
+              required: true
+            public_flags:
+              type: number
+              required: true
+            flags:
+              type: number
+              required: true
+            banner:
+              type: string
+              nullable: true
+            accent_color:
+              type: number
+              nullable: true
+            global_name:
+              type: string
+              nullable: true
+            banner_color:
+              type: number
+              nullable: true
+            clan:
+              type: string
+              nullable: true
+            primary_guild:
+              type: string
+              nullable: true
+        riot:
+          type: object
+          nullable: true
+          properties:
+            id:
+              type: string
+              required: true
+            name:
+              type: string
+              required: true
+            type:
+              type: string
+              required: true
+            friend_sync:
+              type: boolean
+              required: true
+            metadata_visibility:
+              type: number
+              required: true
+            show_activity:
+              type: boolean
+              required: true
+            two_way_link:
+              type: boolean
+              required: true
+            verified:
+              type: boolean
+              required: true
+            visibility:
+              type: number
+              required: true
+        token:
+          type: object
+          properties:
+            type:
+              type: string
+              required: true
+            access_token:
+              type: string
+              required: true
       required:
-        - token_type
-        - access_token
-        - expires_in
-        - refresh_token
-        - scope
+        - user
+        - riot
+        - token
     AuthenticationExchangeCodeResponseDto:
       type: object
       properties:
@@ -212,13 +308,35 @@ components:
           example: Code exchange sucessfully
         data:
           example:
-            token_type: Bearer
-            access_token: iarr2WqxpBddFiOPSLl7VVEgtpNuCs
-            expires_in: 604800
-            refresh_token: XtO7WiKSmnH3YYuVDZMDduM5UrnB9E
-            scope: connections
+            user:
+              id: '123456789012345678'
+              username: test
+              avatar: '12345678901234567890122345678912'
+              discriminator: '0'
+              public_flags: 128
+              flags: 128
+              banner: null
+              accent_color: null
+              global_name: Test
+              avatar_decoration_data: null
+              banner_color: null
+              clan: null
+              primary_guild: null
+            riot:
+              id: '123456789012345678901234567890123456789012345678901234567890123456789012345678'
+              name: Test#EUW
+              type: leagueoflegends
+              friend_sync: false
+              metadata_visibility: 1
+              show_activity: true
+              two_way_link: false
+              verified: true
+              visibility: 1
+            token:
+              type: Bearer
+              access_token: EzaSJRlojeSh1FQ5YuIfOsJkr9RMxE
           allOf:
-            - $ref: '#/components/schemas/AuthenticationTokenDto'
+            - $ref: '#/components/schemas/AuthenticateUserDto'
         meta:
           type: object
       required:
@@ -242,6 +360,25 @@ components:
                   items:
                     type: string
               example: Code malformed
+      required:
+        - statusCode
+        - error
+    ForbiddenResponseDto:
+      type: object
+      properties:
+        statusCode:
+          type: number
+          example: 403
+        error:
+          type: object
+          properties:
+            message:
+              oneOf:
+                - type: string
+                - type: array
+                  items:
+                    type: string
+              example: Not authorized to access this resource
       required:
         - statusCode
         - error
@@ -318,7 +455,7 @@ components:
           example: Tournaments fetch sucessfully
         data:
           example:
-            - &a2
+            - &a3
               id: 51d0af06-f14b-4932-bba8-697201468cda
               name: Tournament Edition 2024
               owner: 60f51f4e-4e15-4c2b-9ba9-7675c850d81a
@@ -364,7 +501,7 @@ components:
           type: string
           example: Tournament fetch sucessfully
         data:
-          example: *a2
+          example: *a3
           allOf:
             - $ref: '#/components/schemas/TournamentDto'
         meta:
@@ -395,7 +532,12 @@ components:
         - error
     TournamentBodyCreateDto:
       type: object
-      properties: {}
+      properties:
+        name:
+          type: string
+          default: Tournament Edition 2024
+      required:
+        - name
     TournamentCreatedResponseDto:
       type: object
       properties:
@@ -406,7 +548,7 @@ components:
           type: string
           example: Tournament create sucessfully
         data:
-          example: *a2
+          example: *a3
           allOf:
             - $ref: '#/components/schemas/TournamentDto'
         meta:
@@ -416,22 +558,3 @@ components:
         - message
         - data
         - meta
-    ForbiddenResponseDto:
-      type: object
-      properties:
-        statusCode:
-          type: number
-          example: 403
-        error:
-          type: object
-          properties:
-            message:
-              oneOf:
-                - type: string
-                - type: array
-                  items:
-                    type: string
-              example: Not authorized to access this resource
-      required:
-        - statusCode
-        - error

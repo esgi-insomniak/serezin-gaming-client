@@ -1,11 +1,14 @@
+import { AuthenticateUserDtoRiot, AuthenticateUserDtoUser } from '@/libs/api';
+
 export type Identity = {
-  name: string;
+  discord: AuthenticateUserDtoUser;
+  riot?: AuthenticateUserDtoRiot;
 };
 
 export type IdentityState = {
   identity: Identity;
   isConnected: boolean;
-  setIdentity: (name: string) => void;
+  setIdentity: (user: Identity) => void;
   setConnected: (isConnected: boolean) => void;
   resetIdentity: () => void;
 };

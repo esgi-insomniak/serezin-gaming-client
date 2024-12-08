@@ -1,11 +1,17 @@
-import { create } from 'zustand';
-import { immer } from 'zustand/middleware/immer';
-import { createJSONStorage, persist } from 'zustand/middleware';
 import { COOKIE_ACCESS_TOKEN_KEY, IDENTITY_STORAGE_KEY } from '@/libs/enum.ts';
-import { IdentityState } from '@/libs/stores/identity/identity.type.ts';
+import {
+  Identity,
+  IdentityState
+} from '@/libs/stores/identity/identity.type.ts';
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 
 const initialState: Pick<IdentityState, 'identity' | 'isConnected'> = {
-  identity: { name: '' },
+  identity: {
+    discord: {},
+    riot: {}
+  },
   isConnected: false
 };
 
@@ -14,7 +20,7 @@ export const useIdentityStore = create<IdentityState>()(
     persist(
       (set) => ({
         ...initialState,
-        setIdentity: (name: string) => set({ identity: { name } }),
+        setIdentity: (identity: Identity) => set({ identity }),
         setConnected: (isConnected: boolean) => set({ isConnected }),
         resetIdentity: () => {
           set(initialState);

@@ -9,10 +9,10 @@ export function LayoutSidebarFooter() {
   // FIXME: call useIdentityStore hook when RSO is approved
 
   const { redirect } = useHandleRedirection();
-  const { isConnected } = useIdentityStore();
+  const { isConnected, identity } = useIdentityStore();
 
   const user = {
-    name: 'John Doe',
+    name: identity.riot?.name || identity.discord?.username || 'John Doe',
     avatar: 'https://github.com/shadcn.png'
   };
 
