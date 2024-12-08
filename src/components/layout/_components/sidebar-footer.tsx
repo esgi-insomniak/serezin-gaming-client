@@ -19,7 +19,9 @@ export function LayoutSidebarFooter() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        {(isConnected && <UserFooter user={user} />) || (
+        {isConnected ? (
+          <UserFooter user={user} />
+        ) : (
           <Link to={import.meta.env.VITE_DISCORD_OAUTH_REDIRECT_URL}>
             <Button>Sign in</Button>
           </Link>

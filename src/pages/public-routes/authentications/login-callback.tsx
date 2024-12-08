@@ -1,34 +1,32 @@
-import { useAuthenticationExchangeCode } from '@/libs/api/endpoints/authentication/authentication';
-import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/enum';
 import { useIdentityStore } from '@/libs/stores';
-import { ClientRoutes, useHandleRedirection } from '@/router';
-import { useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/enum.ts';
+import { useEffect, useState } from 'react';
+import { useAuthenticationExchangeCode } from '@/libs/api';
+import { ClientRoutes, getPath } from '@/router';
 
 export default function LoginCallback() {
   const { mutate: exchangeCodeRequest } = useAuthenticationExchangeCode();
   const { setConnected, isConnected } = useIdentityStore();
-  const { redirect } = useHandleRedirection();
   const [queryParams] = useSearchParams();
+  const [isSettled, setIsSettled] = useState(false);
 
   useEffect(() => {
     if (isConnected) return;
     exchangeCodeRequest(
+      { code: queryParams.get('code') as string },
       {
-        code: queryParams.get('code') as string
-      },
-      {
-        onSuccess: (data) => {
+        onSettled: (data) => {
+          document.cookie = `${COOKIE_ACCESS_TOKEN_KEY}=${data?.data.data.access_token}`;
           setConnected(true);
-          localStorage.setItem(
-            COOKIE_ACCESS_TOKEN_KEY,
-            data.data.data.access_token
-          );
-          redirect(ClientRoutes.HOME);
-        }
+          setIsSettled(true);
+        },
+        onError: console.error
       }
     );
-  }, [isConnected, setConnected, exchangeCodeRequest, queryParams, redirect]);
+  }, [exchangeCodeRequest, isConnected, queryParams, setConnected]);
 
-  return <></>;
+  return isSettled ? (
+    <Navigate to={getPath(ClientRoutes.HOME)} replace />
+  ) : null;
 }

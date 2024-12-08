@@ -26,7 +26,6 @@ import {
   User
 } from 'lucide-react';
 import { useIdentityStore } from '@/libs/stores';
-import { ClientRoutes, useHandleRedirection } from '@/router';
 import { useTheme } from '@/libs/providers';
 
 export function UserFooter({
@@ -36,7 +35,6 @@ export function UserFooter({
 }) {
   const { resetIdentity } = useIdentityStore();
   const { isMobile } = useSidebar();
-  const { redirect } = useHandleRedirection();
   const { setTheme } = useTheme();
 
   return (
@@ -97,11 +95,7 @@ export function UserFooter({
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => {
-            resetIdentity();
-            redirect(ClientRoutes.LOGIN);
-          }}>
+        <DropdownMenuItem onClick={resetIdentity}>
           <LogOut />
           Log out
         </DropdownMenuItem>

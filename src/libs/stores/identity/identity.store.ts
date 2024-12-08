@@ -16,18 +16,20 @@ export const useIdentityStore = create<IdentityState>()(
         ...initialState,
         setIdentity: (name: string) => set({ identity: { name } }),
         setConnected: (isConnected: boolean) => set({ isConnected }),
-        resetIdentity: () => set(() => initialState)
+        resetIdentity: () => {
+          set(initialState);
+          sessionStorage.removeItem(IDENTITY_STORAGE_KEY);
+          document.cookie = `${COOKIE_ACCESS_TOKEN_KEY}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        }
       }),
       {
         name: IDENTITY_STORAGE_KEY,
         storage: createJSONStorage(() => sessionStorage),
         onRehydrateStorage: (state) => {
-          const isConnected =
-            sessionStorage.getItem(IDENTITY_STORAGE_KEY) ||
-            document.cookie.includes(COOKIE_ACCESS_TOKEN_KEY);
-          if (isConnected) {
-            state.isConnected = true;
-          }
+          state.isConnected =
+            (!!sessionStorage.getItem(IDENTITY_STORAGE_KEY) ||
+              document.cookie.includes(COOKIE_ACCESS_TOKEN_KEY)) ??
+            false;
         }
       }
     )
