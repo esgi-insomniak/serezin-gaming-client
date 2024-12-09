@@ -20,7 +20,7 @@ export default function LoginCallback() {
           if (!data) return;
           document.cookie = `${COOKIE_ACCESS_TOKEN_KEY}=${data?.data.data.token.type} ${data?.data.data.token.access_token}`;
           setIdentity({
-            discord: data.data.data.user,
+            discord: data.data.data.discord,
             riot: data.data.data.riot
           });
           setConnected(true);

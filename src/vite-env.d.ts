@@ -5,6 +5,7 @@ interface ImportMetaEnv {
   VITE_API_MOCK_URL: string;
   VITE_MOCKS: string;
   VITE_DISCORD_OAUTH_REDIRECT_URL: string;
+  VITE_DISCORD_CDN_URL: string;
 }
 
 interface ImportMeta {

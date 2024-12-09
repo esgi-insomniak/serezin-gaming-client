@@ -10,34 +10,18 @@ export const getAuthenticationExchangeCodeResponseMock = (
   overrideResponse: Partial<AuthenticationExchangeCodeResponseDto> = {}
 ): AuthenticationExchangeCodeResponseDto => ({
   data: {
-    riot: {
-      friend_sync: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
+    discord: {
+      avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      global_name: faker.helpers.arrayElement([
+        faker.helpers.arrayElement([faker.string.alpha(20), null]),
         undefined
       ]),
       id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-      metadata_visibility: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined
-      ]),
-      name: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-      show_activity: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined
-      ]),
-      two_way_link: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined
-      ]),
-      type: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-      verified: faker.helpers.arrayElement([
-        faker.datatype.boolean(),
-        undefined
-      ]),
-      visibility: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined
-      ])
+      username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
+    },
+    riot: {
+      id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
+      name: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
     },
     token: {
       access_token: faker.helpers.arrayElement([
@@ -45,53 +29,6 @@ export const getAuthenticationExchangeCodeResponseMock = (
         undefined
       ]),
       type: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
-    },
-    user: {
-      accent_color: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null
-        ]),
-        undefined
-      ]),
-      avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-      banner: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        undefined
-      ]),
-      banner_color: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([
-          faker.number.int({ min: undefined, max: undefined }),
-          null
-        ]),
-        undefined
-      ]),
-      clan: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        undefined
-      ]),
-      discriminator: faker.helpers.arrayElement([
-        faker.string.alpha(20),
-        undefined
-      ]),
-      flags: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined
-      ]),
-      global_name: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        undefined
-      ]),
-      id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
-      primary_guild: faker.helpers.arrayElement([
-        faker.helpers.arrayElement([faker.string.alpha(20), null]),
-        undefined
-      ]),
-      public_flags: faker.helpers.arrayElement([
-        faker.number.int({ min: undefined, max: undefined }),
-        undefined
-      ]),
-      username: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
     }
   },
   message: faker.string.alpha(20),

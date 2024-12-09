@@ -4,9 +4,9 @@
  */
 
 export * from './authenticateUserDto';
+export * from './authenticateUserDtoDiscord';
 export * from './authenticateUserDtoRiot';
 export * from './authenticateUserDtoToken';
-export * from './authenticateUserDtoUser';
 export * from './authenticationExchangeCodeBadRequestResponseDto';
 export * from './authenticationExchangeCodeBadRequestResponseDtoError';
 export * from './authenticationExchangeCodeBadRequestResponseDtoErrorMessage';

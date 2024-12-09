@@ -12,8 +12,8 @@ export function LayoutSidebarFooter() {
   const { isConnected, identity } = useIdentityStore();
 
   const user = {
-    name: identity.riot?.name || identity.discord?.username || 'John Doe',
-    avatar: 'https://github.com/shadcn.png'
+    name: identity.riot?.name || identity.discord.username || 'John Doe',
+    avatar: `${import.meta.env.VITE_DISCORD_CDN_URL}/avatars/${identity.discord.id}/${identity.discord.avatar}`
   };
 
   return (
