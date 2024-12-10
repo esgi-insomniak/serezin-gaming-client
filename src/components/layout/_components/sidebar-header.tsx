@@ -3,17 +3,17 @@ import {
   DropdownMenuContent,
   DropdownMenuItem
 } from '@/components/ui/dropdown-menu';
+import { Separator } from '@/components/ui/separator.tsx';
 import { SidebarHeader, SidebarMenuButton } from '@/components/ui/sidebar';
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Archive, ChevronsUpDown, Crown } from 'lucide-react';
 import {
   TournamentDto,
-  useTournamentFindAll,
-  useTournamentFindOne
+  useTournamentGetAll,
+  useTournamentGetOneById
 } from '@/libs/api';
-import { useCallback } from 'react';
 import { ClientRoutes, useHandleRedirection } from '@/router';
-import { Separator } from '@/components/ui/separator.tsx';
+import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { Archive, ChevronsUpDown, Crown } from 'lucide-react';
+import { useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 
 export function LayoutSidebarHeader() {
@@ -21,10 +21,12 @@ export function LayoutSidebarHeader() {
   const { tournamentId = '' } = useParams<{ tournamentId: string }>();
 
   const { data: { data: { data: allTournaments = [] } = {} } = {} } =
-    useTournamentFindAll();
+    useTournamentGetAll();
 
   const { data: { data: { data: currentTournament } = {} } = {} } =
-    useTournamentFindOne(tournamentId, { query: { enabled: !!tournamentId } });
+    useTournamentGetOneById(tournamentId, {
+      query: { enabled: !!tournamentId }
+    });
 
   const handleTournamentChange = useCallback(
     (tournament: TournamentDto) => {

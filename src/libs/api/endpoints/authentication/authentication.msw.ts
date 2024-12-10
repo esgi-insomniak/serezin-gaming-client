@@ -4,11 +4,11 @@
  */
 import { faker } from '@faker-js/faker';
 import { HttpResponse, delay, http } from 'msw';
-import type { AuthenticationExchangeCodeResponseDto } from '../../models';
+import type { AuthenticateUserOkDto } from '../../models';
 
-export const getAuthenticationExchangeCodeResponseMock = (
-  overrideResponse: Partial<AuthenticationExchangeCodeResponseDto> = {}
-): AuthenticationExchangeCodeResponseDto => ({
+export const getAuthenticationGetMeResponseMock = (
+  overrideResponse: Partial<AuthenticateUserOkDto> = {}
+): AuthenticateUserOkDto => ({
   data: {
     discord: {
       avatar: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
@@ -22,13 +22,6 @@ export const getAuthenticationExchangeCodeResponseMock = (
     riot: {
       id: faker.helpers.arrayElement([faker.string.alpha(20), undefined]),
       name: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
-    },
-    token: {
-      access_token: faker.helpers.arrayElement([
-        faker.string.alpha(20),
-        undefined
-      ]),
-      type: faker.helpers.arrayElement([faker.string.alpha(20), undefined])
     }
   },
   message: faker.string.alpha(20),
@@ -37,17 +30,34 @@ export const getAuthenticationExchangeCodeResponseMock = (
   ...overrideResponse
 });
 
-export const getAuthenticationExchangeCodeMockHandler = (
+export const getAuthenticationLoginMockHandler = (
   overrideResponse?:
-    | AuthenticationExchangeCodeResponseDto
+    | void
     | ((
-        info: Parameters<Parameters<typeof http.post>[1]>[0]
-      ) =>
-        | Promise<AuthenticationExchangeCodeResponseDto>
-        | AuthenticationExchangeCodeResponseDto)
+        info: Parameters<Parameters<typeof http.get>[1]>[0]
+      ) => Promise<void> | void)
 ) => {
-  return http.post(
-    'https://mock.serezin-gaming.fr/authentication/exchange-code/:code',
+  return http.get(
+    'https://mock.serezin-gaming.fr/authentication/login',
+    async (info) => {
+      await delay(1000);
+      if (typeof overrideResponse === 'function') {
+        await overrideResponse(info);
+      }
+      return new HttpResponse(null, { status: 200 });
+    }
+  );
+};
+
+export const getAuthenticationGetMeMockHandler = (
+  overrideResponse?:
+    | AuthenticateUserOkDto
+    | ((
+        info: Parameters<Parameters<typeof http.get>[1]>[0]
+      ) => Promise<AuthenticateUserOkDto> | AuthenticateUserOkDto)
+) => {
+  return http.get(
+    'https://mock.serezin-gaming.fr/authentication/me',
     async (info) => {
       await delay(1000);
 
@@ -57,9 +67,9 @@ export const getAuthenticationExchangeCodeMockHandler = (
             ? typeof overrideResponse === 'function'
               ? await overrideResponse(info)
               : overrideResponse
-            : getAuthenticationExchangeCodeResponseMock()
+            : getAuthenticationGetMeResponseMock()
         ),
-        { status: 201, headers: { 'Content-Type': 'application/json' } }
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
     }
   );
@@ -84,6 +94,7 @@ export const getAuthenticationRevokeTokenMockHandler = (
   );
 };
 export const getAuthenticationMock = () => [
-  getAuthenticationExchangeCodeMockHandler(),
+  getAuthenticationLoginMockHandler(),
+  getAuthenticationGetMeMockHandler(),
   getAuthenticationRevokeTokenMockHandler()
 ];

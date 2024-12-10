@@ -1,7 +1,6 @@
 import { RoutesDefinition } from '@/router/routes.type.ts';
 
 export enum ClientRoutes {
-  LOGIN_CALLBACK = 'LOGIN_CALLBACK',
   HOME = 'HOME',
   PRIVACY_POLICY = 'PRIVACY_POLICY',
   TERMS_OF_SERVICE = 'TERMS_OF_SERVICE',
@@ -9,10 +8,6 @@ export enum ClientRoutes {
 }
 
 export const CLIENT_ROUTES: RoutesDefinition<keyof typeof ClientRoutes> = {
-  LOGIN_CALLBACK: {
-    title: ClientRoutes.LOGIN_CALLBACK,
-    path: '/login-callback'
-  },
   HOME: {
     title: ClientRoutes.HOME,
     path: '/'

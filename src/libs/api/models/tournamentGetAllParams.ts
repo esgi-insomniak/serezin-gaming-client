@@ -3,7 +3,7 @@
  * Do not edit manually.
  */
 
-export type TournamentFindAllParams = {
+export type TournamentGetAllParams = {
   itemsPerPage?: number;
   page?: number;
 };

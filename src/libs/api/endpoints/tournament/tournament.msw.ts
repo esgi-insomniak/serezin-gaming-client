@@ -10,7 +10,7 @@ import type {
   TournamentOKResponseDto
 } from '../../models';
 
-export const getTournamentFindAllResponseMock = (
+export const getTournamentGetAllResponseMock = (
   overrideResponse: Partial<TournamentArrayOkResponseDto> = {}
 ): TournamentArrayOkResponseDto => ({
   data: Array.from(
@@ -58,7 +58,7 @@ export const getTournamentCreateResponseMock = (
   ...overrideResponse
 });
 
-export const getTournamentFindOneResponseMock = (
+export const getTournamentGetOneByIdResponseMock = (
   overrideResponse: Partial<TournamentOKResponseDto> = {}
 ): TournamentOKResponseDto => ({
   data: {
@@ -77,7 +77,7 @@ export const getTournamentFindOneResponseMock = (
   ...overrideResponse
 });
 
-export const getTournamentFindAllMockHandler = (
+export const getTournamentGetAllMockHandler = (
   overrideResponse?:
     | TournamentArrayOkResponseDto
     | ((
@@ -93,7 +93,7 @@ export const getTournamentFindAllMockHandler = (
           ? typeof overrideResponse === 'function'
             ? await overrideResponse(info)
             : overrideResponse
-          : getTournamentFindAllResponseMock()
+          : getTournamentGetAllResponseMock()
       ),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
@@ -126,7 +126,7 @@ export const getTournamentCreateMockHandler = (
   );
 };
 
-export const getTournamentFindOneMockHandler = (
+export const getTournamentGetOneByIdMockHandler = (
   overrideResponse?:
     | TournamentOKResponseDto
     | ((
@@ -144,7 +144,7 @@ export const getTournamentFindOneMockHandler = (
             ? typeof overrideResponse === 'function'
               ? await overrideResponse(info)
               : overrideResponse
-            : getTournamentFindOneResponseMock()
+            : getTournamentGetOneByIdResponseMock()
         ),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
       );
@@ -152,7 +152,7 @@ export const getTournamentFindOneMockHandler = (
   );
 };
 
-export const getTournamentRemoveMockHandler = (
+export const getTournamentRemoveByIdMockHandler = (
   overrideResponse?:
     | void
     | ((
@@ -171,8 +171,8 @@ export const getTournamentRemoveMockHandler = (
   );
 };
 export const getTournamentMock = () => [
-  getTournamentFindAllMockHandler(),
+  getTournamentGetAllMockHandler(),
   getTournamentCreateMockHandler(),
-  getTournamentFindOneMockHandler(),
-  getTournamentRemoveMockHandler()
+  getTournamentGetOneByIdMockHandler(),
+  getTournamentRemoveByIdMockHandler()
 ];
