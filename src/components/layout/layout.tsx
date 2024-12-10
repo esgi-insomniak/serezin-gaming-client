@@ -16,6 +16,8 @@ import { useAuthenticationGetMe } from '@/libs/api';
 import { useIdentityStore } from '@/libs/stores';
 import Cookies from 'js-cookie';
 import { memo, PropsWithChildren, Suspense, useEffect } from 'react';
+import { Skeleton } from '@/components/layout/_components/skeleton.tsx';
+import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/enum.ts';
 
 export const MemoizedLayout = memo(function Layout({
   children
@@ -23,7 +25,9 @@ export const MemoizedLayout = memo(function Layout({
   const { setIdentity, resetIdentity, setConnected } = useIdentityStore();
   const { isSuccess, isFetched, data } = useAuthenticationGetMe({
     request: {
-      headers: { Authorization: 'Bearer ' + Cookies.get('access_token') }
+      headers: {
+        Authorization: 'Bearer ' + Cookies.get(COOKIE_ACCESS_TOKEN_KEY)
+      }
     }
   });
 
@@ -38,7 +42,7 @@ export const MemoizedLayout = memo(function Layout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className={'h-dvh '}>
+      <SidebarInset className={'h-dvh'}>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger />
           <Breadcrumb>
@@ -53,18 +57,8 @@ export const MemoizedLayout = memo(function Layout({
             </BreadcrumbList>
           </Breadcrumb>
         </header>
-        <Suspense
-          fallback={
-            <div className="flex flex-1 flex-col gap-4 p-4">
-              <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="aspect-video rounded-xl bg-muted/50  animate-pulse" />
-                <div className="aspect-video rounded-xl bg-muted/50  animate-pulse" />
-                <div className="aspect-video rounded-xl bg-muted/50  animate-pulse" />
-              </div>
-              <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min animate-pulse" />
-            </div>
-          }>
-          <div className={'p-5 h-full '}>{children}</div>
+        <Suspense fallback={<Skeleton />}>
+          <div className="p-5 h-full">{children}</div>
         </Suspense>
       </SidebarInset>
     </SidebarProvider>

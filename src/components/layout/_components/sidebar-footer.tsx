@@ -18,12 +18,12 @@ export function LayoutSidebarFooter() {
 
   return (
     <SidebarMenu>
-      <SidebarMenuItem>
+      <SidebarMenuItem className="px-3">
         {isConnected ? (
           <UserFooter user={user} />
         ) : (
           <Link to={import.meta.env.VITE_DISCORD_OAUTH_REDIRECT_URL}>
-            <Button>Sign in</Button>
+            <Button className="w-full">Se connecter</Button>
           </Link>
         )}
         <div className={'w-full space-x-2 flex justify-center py-2'}>

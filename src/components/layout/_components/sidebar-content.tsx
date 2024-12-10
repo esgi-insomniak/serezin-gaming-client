@@ -26,11 +26,7 @@ export function LayoutSidebarContent({
             <SidebarMenuButton asChild>
               <span>
                 <Suspense
-                  fallback={
-                    <div
-                      style={{ background: '#ddd', width: 24, height: 24 }}
-                    />
-                  }>
+                  fallback={<div className="animate-pulse bg-foreground/50" />}>
                   <LucideIcon className="size-6" />
                 </Suspense>
                 <span>{item.title}</span>
