@@ -29,6 +29,7 @@
     "clsx": "^2.1.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "framer-motion": "^11.13.5",
     "husky": "^9.1.7",
     "immer": "^10.1.1",
     "js-cookie": "^3.0.5",
