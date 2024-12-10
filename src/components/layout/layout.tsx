@@ -1,10 +1,4 @@
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger
-} from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/app-sidebar';
-import { memo, PropsWithChildren, Suspense } from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,10 +7,33 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger
+} from '@/components/ui/sidebar';
+import { useAuthenticationGetMe } from '@/libs/api';
+import { useIdentityStore } from '@/libs/stores';
+import Cookies from 'js-cookie';
+import { memo, PropsWithChildren, Suspense, useEffect } from 'react';
 
 export const MemoizedLayout = memo(function Layout({
   children
 }: PropsWithChildren) {
+  const { setIdentity, resetIdentity, setConnected } = useIdentityStore();
+  const { isSuccess, isFetched, data } = useAuthenticationGetMe({
+    request: {
+      headers: { Authorization: 'Bearer ' + Cookies.get('access_token') }
+    }
+  });
+
+  useEffect(() => {
+    if (!isFetched) return;
+    if (!isSuccess) return resetIdentity();
+    setIdentity(data.data.data);
+    setConnected(true);
+  }, [isSuccess, data, setIdentity, setConnected, resetIdentity, isFetched]);
+
   // FIXME: store path in zustand render breadcrumb dynamically
   return (
     <SidebarProvider>

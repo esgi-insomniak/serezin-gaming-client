@@ -3,6 +3,7 @@ import {
   Identity,
   IdentityState
 } from '@/libs/stores/identity/identity.type.ts';
+import Cookies from 'js-cookie';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
@@ -25,7 +26,7 @@ export const useIdentityStore = create<IdentityState>()(
         resetIdentity: () => {
           set(initialState);
           sessionStorage.removeItem(IDENTITY_STORAGE_KEY);
-          document.cookie = `${COOKIE_ACCESS_TOKEN_KEY}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+          Cookies.remove(COOKIE_ACCESS_TOKEN_KEY);
         }
       }),
       {
@@ -34,7 +35,7 @@ export const useIdentityStore = create<IdentityState>()(
         onRehydrateStorage: (state) => {
           state.isConnected =
             (!!sessionStorage.getItem(IDENTITY_STORAGE_KEY) ||
-              document.cookie.includes(COOKIE_ACCESS_TOKEN_KEY)) ??
+              !!Cookies.get(COOKIE_ACCESS_TOKEN_KEY)) ??
             false;
         }
       }

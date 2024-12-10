@@ -4,11 +4,9 @@
  */
 import type { AuthenticateUserDtoDiscord } from './authenticateUserDtoDiscord';
 import type { AuthenticateUserDtoRiot } from './authenticateUserDtoRiot';
-import type { AuthenticateUserDtoToken } from './authenticateUserDtoToken';
 
 export interface AuthenticateUserDto {
   discord: AuthenticateUserDtoDiscord;
   /** @nullable */
   riot: AuthenticateUserDtoRiot;
-  token: AuthenticateUserDtoToken;
 }

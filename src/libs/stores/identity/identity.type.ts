@@ -1,12 +1,6 @@
-import {
-  AuthenticateUserDtoDiscord,
-  AuthenticateUserDtoRiot
-} from '@/libs/api';
+import { AuthenticateUserDto } from '@/libs/api';
 
-export type Identity = {
-  discord: AuthenticateUserDtoDiscord;
-  riot?: AuthenticateUserDtoRiot;
-};
+export type Identity = AuthenticateUserDto & {};
 
 export type IdentityState = {
   identity: Identity;

@@ -1,9 +1,9 @@
 import { MemoizedLayout } from '@/components/layout/layout';
+import { useIdentityStore } from '@/libs/stores';
 import {
   ClientRoutes,
   getPath,
   HomePage,
-  LoginCallbackPage,
   PrivacyPolicyPage,
   ProtectedRoutes,
   TermsOfServicePage,
@@ -11,7 +11,6 @@ import {
 } from '@/router';
 import { Suspense } from 'react';
 import { Outlet, Route, Routes, useLocation } from 'react-router-dom';
-import { useIdentityStore } from '@/libs/stores';
 
 function ProtectedRoute({ children }: ProtectedRoutes) {
   const { pathname } = useLocation();
@@ -41,10 +40,6 @@ export function Router() {
               <Outlet />
             </ProtectedRoute>
           }>
-          <Route
-            path={getPath(ClientRoutes.LOGIN_CALLBACK)}
-            element={<LoginCallbackPage />}
-          />
           <Route
             path={getPath(ClientRoutes.PRIVACY_POLICY)}
             element={<PrivacyPolicyPage />}
