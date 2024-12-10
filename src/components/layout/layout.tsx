@@ -1,13 +1,5 @@
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from '@/components/ui/breadcrumb';
-import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger
@@ -18,6 +10,7 @@ import Cookies from 'js-cookie';
 import { memo, PropsWithChildren, Suspense, useEffect } from 'react';
 import { Skeleton } from '@/components/layout/_components/skeleton.tsx';
 import { COOKIE_ACCESS_TOKEN_KEY } from '@/libs/enum.ts';
+import Breadcrumbs from '../breadcrumbs/breadcrumb';
 
 export const MemoizedLayout = memo(function Layout({
   children
@@ -45,17 +38,7 @@ export const MemoizedLayout = memo(function Layout({
       <SidebarInset className={'h-dvh'}>
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="#">Tournoi Edition 2025</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Dashboard</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <Breadcrumbs />
         </header>
         <Suspense fallback={<Skeleton />}>
           <div className="p-5 h-full">{children}</div>

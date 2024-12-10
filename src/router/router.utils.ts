@@ -55,7 +55,7 @@ function getRoutePath(
   );
 }
 
-function getRouteForRoutes<T extends string | symbol>(
+export function getRouteForRoutes<T extends string | symbol>(
   ROUTES: RoutesDefinition<T>,
   withParams = true
 ) {
