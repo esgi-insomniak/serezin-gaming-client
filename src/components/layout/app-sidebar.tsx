@@ -8,9 +8,10 @@ import {
 import { LayoutSidebarHeader } from '@/components/layout/_components/sidebar-header.tsx';
 import { LayoutSidebarFooter } from '@/components/layout/_components/sidebar-footer.tsx';
 import { LayoutSidebarContent } from '@/components/layout/_components/sidebar-content.tsx';
-import { sidebarGroup } from '@/components/layout/utils';
+import { useSidebarGroup } from '@/components/layout/utils';
 
 export function AppSidebar() {
+  const { sidebarGroup } = useSidebarGroup();
   return (
     <Sidebar>
       <LayoutSidebarHeader />

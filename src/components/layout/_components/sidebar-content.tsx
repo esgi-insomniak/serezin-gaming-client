@@ -16,25 +16,29 @@ export function LayoutSidebarContent({
   const { redirect } = useHandleRedirection();
   return (
     <SidebarMenu>
-      {items.map((item: SingleSidebarGroupType) => {
-        const LucideIcon = lazy(dynamicIconImports[item.icon]);
-        return (
-          <SidebarMenuItem
-            key={item.title}
-            onClick={() => redirect(item.url)}
-            className="cursor-pointer">
-            <SidebarMenuButton asChild>
-              <span>
-                <Suspense
-                  fallback={<div className="animate-pulse bg-foreground/50" />}>
-                  <LucideIcon className="size-6" />
-                </Suspense>
-                <span>{item.title}</span>
-              </span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        );
-      })}
+      {items
+        .filter((item) => item.visible !== false)
+        .map((item: SingleSidebarGroupType) => {
+          const LucideIcon = lazy(dynamicIconImports[item.icon]);
+          return (
+            <SidebarMenuItem
+              key={item.title}
+              onClick={() => redirect(item.url)}
+              className="cursor-pointer">
+              <SidebarMenuButton asChild>
+                <span>
+                  <Suspense
+                    fallback={
+                      <div className="animate-pulse bg-foreground/50" />
+                    }>
+                    <LucideIcon className="size-6" />
+                  </Suspense>
+                  <span>{item.title}</span>
+                </span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          );
+        })}
     </SidebarMenu>
   );
 }

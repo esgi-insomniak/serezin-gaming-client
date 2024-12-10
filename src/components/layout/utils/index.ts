@@ -1,1 +1,1 @@
-export * from './sidebar-group.ts';
+export * from './useSidebarGroup.tsx';
